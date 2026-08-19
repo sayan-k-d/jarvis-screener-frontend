@@ -1,5 +1,5 @@
-'use client';
-import { NAV, ICONS, PageId } from '@/lib/nav';
+"use client";
+import { NAV, ICONS, PageId } from "@/lib/nav";
 
 export default function Sidebar({
   page,
@@ -13,7 +13,15 @@ export default function Sidebar({
   return (
     <aside className="sidebar">
       <div className="side-brand">
-        <div className="brand-mark">J</div>
+        <div className="brand-mark">
+          <img
+            src="https://jarvisintelligence.ai/images/J_logo.png"
+            alt="J"
+            width="100%"
+            height="100%"
+            style={{ padding: "0.25rem" }}
+          />
+        </div>
         <div className="brand-txt">
           <div className="brand-name">JARVIS</div>
           <div className="brand-sub">INTELLIGENCE GROUP</div>
@@ -23,10 +31,15 @@ export default function Sidebar({
         {NAV.map(([id, label]) => (
           <button
             key={id}
-            className={`nav-item ${page === id || (page === 'detail' && id === 'results') ? 'active' : ''}`}
+            className={`nav-item ${page === id || (page === "detail" && id === "results") ? "active" : ""}`}
             onClick={() => onNav(id)}
           >
-            <svg viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{ __html: ICONS[id] }} />
+            <svg
+              viewBox="0 0 24 24"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              dangerouslySetInnerHTML={{ __html: ICONS[id] }}
+            />
             {label}
           </button>
         ))}

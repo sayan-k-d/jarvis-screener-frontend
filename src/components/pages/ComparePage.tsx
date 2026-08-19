@@ -4,7 +4,7 @@ import { api } from '@/lib/api';
 import { adaptRow } from '@/lib/format';
 
 export default function ComparePage({ onOpenStock }: { onOpenStock: (t: string) => void }) {
-  const [cmp, setCmp] = useState<string[]>(['NVDA', 'META', 'AMD']);
+  const [cmp, setCmp] = useState<string[]>(['NVDA', 'META']);
   const [rowsByT, setRowsByT] = useState<Record<string, any>>({});
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);

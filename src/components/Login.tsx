@@ -1,9 +1,9 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
 export default function Login({ onSignIn }: { onSignIn: () => void }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const submit = () => {
     // No backend auth in this build — any credentials proceed (internal tool).
@@ -14,7 +14,15 @@ export default function Login({ onSignIn }: { onSignIn: () => void }) {
     <div id="login">
       <div className="login-card">
         <div className="brand">
-          <div className="brand-mark">J</div>
+          <div className="brand-mark">
+            <img
+              src="https://jarvisintelligence.ai/images/J_logo.png"
+              alt="J"
+              width="100%"
+              height="100%"
+              style={{ padding: "0.25rem" }}
+            />
+          </div>
           <div className="brand-txt">
             <div className="brand-name">JARVIS</div>
             <div className="brand-sub">INTELLIGENCE GROUP</div>
@@ -28,7 +36,7 @@ export default function Login({ onSignIn }: { onSignIn: () => void }) {
             placeholder="you@firm.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && submit()}
+            onKeyDown={(e) => e.key === "Enter" && submit()}
           />
         </div>
         <div className="field">
@@ -38,7 +46,7 @@ export default function Login({ onSignIn }: { onSignIn: () => void }) {
             placeholder="••••••••"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && submit()}
+            onKeyDown={(e) => e.key === "Enter" && submit()}
           />
         </div>
         <div className="login-row">
