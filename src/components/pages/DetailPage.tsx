@@ -13,6 +13,7 @@ import {
 } from "@/lib/format";
 import { TierBadge } from "@/components/ui";
 import { PriceChart, Sparkline, ScoreHistoryChart } from "@/components/Charts";
+import { InfoTip, FORMULAS } from "@/components/InfoTip";
 
 // Spec factor definitions, ported verbatim from the original app. Each factor's
 // val(r) reads the live raw metric; fKey maps to its percentile/zone score
@@ -346,6 +347,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                   style={{ fontSize: 11.5, fontWeight: 600, marginTop: 8 }}
                 >
                   ★ Triple Confluence
+                  <InfoTip label="Triple Confluence" text={FORMULAS.conf} />
                 </div>
               ) : null}
             </div>
@@ -359,6 +361,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
             style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 600 }}
           >
             Composite Score
+            <InfoTip label="Composite Score" text={FORMULAS.composite} />
           </div>
           <div
             style={{
@@ -381,6 +384,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
             style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 600 }}
           >
             Weekly Delta
+            <InfoTip label="Weekly Delta" text={FORMULAS.delta} />
           </div>
           <div
             style={{
@@ -463,7 +467,13 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                           marginBottom: 5,
                         }}
                       >
-                        <span>{g.name}</span>
+                        <span>
+                          {g.name}
+                          <InfoTip
+                            label={g.name}
+                            text={(FORMULAS as any)[g.L]}
+                          />
+                        </span>
                         <b>{val}</b>
                       </div>
                       <div
@@ -656,7 +666,13 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                                 <th>Value</th>
                                 <th>Percentile</th>
                                 <th>Weight</th>
-                                <th>Weighted</th>
+                                <th>
+                                  Weighted
+                                  <InfoTip
+                                    label="Weighted"
+                                    text={FORMULAS.weighted}
+                                  />
+                                </th>
                               </tr>
                             </thead>
                             <tbody>
@@ -664,7 +680,13 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                                 const pctv = row.factors[f.fKey] || 0;
                                 return (
                                   <tr key={f.fKey}>
-                                    <td>{f.n}</td>
+                                    <td>
+                                      {f.n}
+                                      <InfoTip
+                                        label={f.n}
+                                        text={(FORMULAS as any)[f.fKey]}
+                                      />
+                                    </td>
                                     <td style={{ color: "var(--muted)" }}>
                                       {f.desc}
                                     </td>
@@ -692,6 +714,10 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                           >
                             <b style={{ fontSize: 12.5 }}>
                               Group Weighted Score
+                              <InfoTip
+                                label="Group Weighted Score"
+                                text={FORMULAS.groupWeighted}
+                              />
                             </b>
                             <b style={{ fontSize: 16 }}>
                               {((sub / 100) * g.w).toFixed(1)}
@@ -734,7 +760,13 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                           <td>
                             <b>{L}</b>
                           </td>
-                          <td>{f.n}</td>
+                          <td>
+                            {f.n}
+                            <InfoTip
+                              label={f.n}
+                              text={(FORMULAS as any)[f.fKey]}
+                            />
+                          </td>
                           <td>{f.val(row)}</td>
                           <td>
                             <PctPill p={row.factors[f.fKey] || 0} />
@@ -879,6 +911,13 @@ function Financials({ payload, row }: { payload: any; row: any }) {
   );
 }
 
+const GATE_TIPS: Record<string, string> = {
+  "Operating Cash Flow": FORMULAS.gateOCF,
+  "EPS Revision Net Balance": FORMULAS.gateRev,
+  "Debt Growth vs Revenue": FORMULAS.gateDebt,
+  "Share Dilution Check": FORMULAS.gateDilution,
+};
+
 function Gates({ row }: { row: any }) {
   const all = row.gatesPassed !== false;
   return (
@@ -905,7 +944,10 @@ function Gates({ row }: { row: any }) {
         <tbody>
           {(row.gates || []).map((g: any) => (
             <tr key={g.name}>
-              <td>{g.name}</td>
+              <td>
+                {g.name}
+                <InfoTip label={g.name} text={GATE_TIPS[g.name] || ""} />
+              </td>
               <td>
                 <span className={`badge ${g.pass ? "b-pass" : "b-break"}`}>
                   {g.pass ? "⊙ PASS" : "⊗ FAIL"}
