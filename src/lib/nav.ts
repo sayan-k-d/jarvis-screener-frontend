@@ -3,7 +3,7 @@ export type PageId =
   | 'results'
   | 'history'
   | 'breakdown'
-  | 'analytics'
+  | 'stock_analysis'
   | 'compare'
   | 'sources'
   | 'settings'
@@ -16,7 +16,8 @@ export const NAV: [PageId, string, string, string][] = [
   ['results', 'Weekly Results', 'Weekly Results (Screener Output)', 'Ranked output from the latest run'],
   ['history', 'Run History', 'Screener Run History', 'Every completed weekly run'],
   ['breakdown', 'Breakdown Watch', 'Breakdown Watch', 'Stocks with deteriorating momentum'],
-  ['analytics', 'Analytics', 'Analytics', 'Distribution and sector analysis'],
+  // ['analytics', 'Analytics', 'Analytics', 'Distribution and sector analysis'],
+  ['stock_analysis', 'Stock Analysis', 'What equity would you like to analyze?', 'Multi-agent AI pipeline — market, sentiment, fundamentals, risk, and final portfolio verdict.'],
   ['compare', 'Compare Stocks', 'Compare Stocks', 'Side-by-side factor comparison'],
   ['sources', 'Data Sources', 'Data Source Status', 'Health of every upstream feed'],
   ['settings', 'Settings', 'Settings', 'Screener thresholds and preferences'],
@@ -28,7 +29,7 @@ export const ICONS: Record<string, string> = {
   results: '<path d="M3 6h18M3 12h18M3 18h12"/>',
   history: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   breakdown: '<path d="M3 17l6-6 4 4 8-8"/><path d="M21 15V7h-8"/>',
-  analytics: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  stock_analysis: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   compare: '<path d="M8 3v18M16 3v18M3 8h18M3 16h18"/>',
   sources:
     '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
