@@ -1,0 +1,1663 @@
+{
+    "source": "fresh",
+    "ticker": "AAPL",
+    "calculated_at": "2026-11-13T08:56:33.012Z",
+    "methodology_version": "1.0",
+    "config_version": "1.0-placeholder-2026-09-29",
+    "breakpoints_status": "PLACEHOLDER - pending Left Brain approval",
+    "profile": {
+        "name": "Apple Inc.",
+        "ticker": "AAPL",
+        "exchange": "NASDAQ",
+        "sector": "TECHNOLOGY",
+        "industry": "CONSUMER ELECTRONICS",
+        "currency": "USD",
+        "fiscal_year_end": "September",
+        "price": 354.88,
+        "price_date": "2026-11-12",
+        "market_cap": 5168079831000,
+        "description": "Apple Inc. is an American multinational technology company that specializes in consumer electronics, computer software, and online services. Apple is the world's largest technology company by revenue (totalling $274.5 billion in 2020) and, since January 2021, the world's most valuable company. As of 2021, Apple is the world's fourth-largest PC vendor by unit sales, and fourth-largest smartphone manufacturer. It is one of the Big Five American information technology companies, along with Amazon, Google, Microsoft, and Facebook."
+    },
+    "jarvis_score": 69.8,
+    "jarvis_confidence": "Medium",
+    "weighted_input_availability": 0.84,
+    "trend": "Stable",
+    "prior_score": 66.9,
+    "score_change": 2.9,
+    "engines": {
+        "growth": {
+            "score": 62.9,
+            "confidence": "Medium",
+            "weighted_input_availability": 0.75,
+            "trend": "Deteriorating",
+            "prior_score": 69.9,
+            "score_change": -7,
+            "components": [
+                {
+                    "component": "eps_estimate_momentum",
+                    "weight": 0.25,
+                    "score": null,
+                    "note": "EPS revision history unavailable",
+                    "raw": null
+                },
+                {
+                    "component": "f01",
+                    "weight": 0.25,
+                    "score": 50.1
+                },
+                {
+                    "component": "f02",
+                    "weight": 0.2,
+                    "score": 70.9
+                },
+                {
+                    "component": "f09",
+                    "weight": 0.1,
+                    "score": 63.5
+                },
+                {
+                    "component": "f05",
+                    "weight": 0.1,
+                    "score": 66.4
+                },
+                {
+                    "component": "f04",
+                    "weight": 0.1,
+                    "score": 75.1
+                }
+            ]
+        },
+        "quality": {
+            "score": 84.6,
+            "confidence": "Medium",
+            "weighted_input_availability": 0.9,
+            "trend": "Stable",
+            "prior_score": 86,
+            "score_change": -1.4,
+            "components": [
+                {
+                    "component": "roic_capital_efficiency",
+                    "weight": 0.2,
+                    "score": 100,
+                    "note": "ROIC TTM",
+                    "raw": 84.1574
+                },
+                {
+                    "component": "fcf_cash_conversion",
+                    "weight": 0.2,
+                    "score": 82.3,
+                    "note": "FCF margin + FCF/net income",
+                    "raw": 1.0294
+                },
+                {
+                    "component": "f08",
+                    "weight": 0.2,
+                    "score": 73.5
+                },
+                {
+                    "component": "margin_quality_durability",
+                    "weight": 0.15,
+                    "score": 88.2,
+                    "note": "Operating margin level + stability (8 quarters)",
+                    "raw": 33.01
+                },
+                {
+                    "component": "f06",
+                    "weight": 0.15,
+                    "score": 78.2
+                },
+                {
+                    "component": "business_durability_pem",
+                    "weight": 0.1,
+                    "score": null,
+                    "note": "PEM not connected - awaiting Left Brain PEM data",
+                    "raw": null
+                }
+            ]
+        },
+        "momentum": {
+            "score": 77.9,
+            "confidence": "Low",
+            "weighted_input_availability": 1,
+            "trend": "Improving",
+            "prior_score": 57.6,
+            "score_change": 20.3,
+            "components": [
+                {
+                    "component": "f10",
+                    "weight": 1,
+                    "score": 77.9
+                }
+            ]
+        },
+        "valuation": {
+            "score": 51.3,
+            "confidence": "Medium",
+            "weighted_input_availability": 0.7,
+            "trend": "Stable",
+            "prior_score": 50,
+            "score_change": 1.3,
+            "components": [
+                {
+                    "component": "forward_growth_adjusted_valuation",
+                    "weight": 0.3,
+                    "score": null,
+                    "note": "Forward P/E + PEG",
+                    "raw": null
+                },
+                {
+                    "component": "f03",
+                    "weight": 0.2,
+                    "score": 32.9
+                },
+                {
+                    "component": "f07",
+                    "weight": 0.25,
+                    "score": 65.5
+                },
+                {
+                    "component": "fcf_earnings_yield",
+                    "weight": 0.15,
+                    "score": 50.7,
+                    "note": "FCF yield + forward earnings yield",
+                    "raw": 2.6326
+                },
+                {
+                    "component": "downside_risk_adjusted",
+                    "weight": 0.1,
+                    "score": 53.2,
+                    "note": "Analyst target upside + balance sheet",
+                    "raw": -2.8911
+                }
+            ]
+        }
+    },
+    "factors": {
+        "f01": {
+            "ticker": "AAPL",
+            "factor_id": "f01",
+            "factor_name": "Revenue Acceleration",
+            "display_name": "Revenue Acceleration",
+            "score_0_100": 50.1,
+            "confidence": "High",
+            "status": "PARTIAL",
+            "trend": "Deteriorating",
+            "prior_score": 65.4,
+            "score_change": -15.3,
+            "weighted_input_availability": 0.9,
+            "subfactor_scores": [
+                {
+                    "subfactor": "acceleration",
+                    "weight": 0.4,
+                    "score": 19.2,
+                    "raw": -4.6346,
+                    "status": "OK",
+                    "note": "",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "current_growth",
+                    "weight": 0.3,
+                    "score": 57.9,
+                    "raw": 11.7219,
+                    "status": "OK",
+                    "note": "",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "persistence",
+                    "weight": 0.2,
+                    "score": 100,
+                    "raw": 4,
+                    "status": "OK",
+                    "note": "4/4 quarters of positive YoY growth",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "forward_breadth",
+                    "weight": 0.1,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "",
+                    "basis": "consensus",
+                    "source": "calculated"
+                }
+            ],
+            "evidence": [
+                "persistence: 4/4 quarters of positive YoY growth"
+            ],
+            "counter_evidence": [],
+            "missing_inputs": [
+                "forward_breadth: DATA_UNAVAILABLE"
+            ],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: persistence (100). Weakest: acceleration (19.2)."
+        },
+        "f02": {
+            "ticker": "AAPL",
+            "factor_id": "f02",
+            "factor_name": "Profit Acceleration",
+            "display_name": "Profit Acceleration",
+            "score_0_100": 70.9,
+            "confidence": "High",
+            "status": "OK",
+            "trend": "Deteriorating",
+            "prior_score": 77.5,
+            "score_change": -6.6,
+            "weighted_input_availability": 1,
+            "subfactor_scores": [
+                {
+                    "subfactor": "operating_income_ebitda",
+                    "weight": 0.35,
+                    "score": 70.3,
+                    "raw": 18.7997,
+                    "status": "OK",
+                    "note": "",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "eps",
+                    "weight": 0.3,
+                    "score": 71.2,
+                    "raw": 19.411,
+                    "status": "OK",
+                    "note": "",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "fcf_conversion",
+                    "weight": 0.2,
+                    "score": 80.1,
+                    "raw": 1.0294,
+                    "status": "OK",
+                    "note": "",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "profit_vs_revenue",
+                    "weight": 0.15,
+                    "score": 59.3,
+                    "raw": 3.7399,
+                    "status": "OK",
+                    "note": "",
+                    "basis": "fact",
+                    "source": "calculated"
+                }
+            ],
+            "evidence": [],
+            "counter_evidence": [],
+            "missing_inputs": [],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: fcf_conversion (80.1). Weakest: profit_vs_revenue (59.3)."
+        },
+        "f03": {
+            "ticker": "AAPL",
+            "factor_id": "f03",
+            "factor_name": "Multiple-Expansion Room",
+            "display_name": "Multiple-Expansion Room",
+            "score_0_100": 32.9,
+            "confidence": "Low",
+            "status": "PARTIAL",
+            "trend": "Stable",
+            "prior_score": 32.9,
+            "score_change": 0,
+            "weighted_input_availability": 0.35,
+            "subfactor_scores": [
+                {
+                    "subfactor": "historical_valuation",
+                    "weight": 0.25,
+                    "score": 29.3,
+                    "raw": 1.2073,
+                    "status": "OK",
+                    "note": "Current P/E vs 3-year median",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "growth_quality_adjusted",
+                    "weight": 0.3,
+                    "score": null,
+                    "raw": null,
+                    "status": "NOT_MEANINGFUL",
+                    "note": "NM: forward EPS growth not positive or unavailable",
+                    "basis": "consensus",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "peers",
+                    "weight": 0.15,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "Peer set not configured - awaiting Left Brain-approved peer lists",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "forward_support",
+                    "weight": 0.2,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "",
+                    "basis": "consensus",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "rerating_catalyst",
+                    "weight": 0.1,
+                    "score": 42,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Siri AI beta and iPhone Duo introduce potential new growth narratives.",
+                    "counter": "At $5.17 trillion market capitalization, valuation upside is uncertain; no forward P/E was supplied.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Low",
+                    "source": "ai"
+                }
+            ],
+            "evidence": [
+                "historical_valuation: Current P/E vs 3-year median",
+                "rerating_catalyst: Siri AI beta and iPhone Duo introduce potential new growth narratives."
+            ],
+            "counter_evidence": [
+                "rerating_catalyst: At $5.17 trillion market capitalization, valuation upside is uncertain; no forward P/E was supplied."
+            ],
+            "missing_inputs": [
+                "growth_quality_adjusted: NM: forward EPS growth not positive or unavailable",
+                "peers: Peer set not configured - awaiting Left Brain-approved peer lists",
+                "forward_support: DATA_UNAVAILABLE"
+            ],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: rerating_catalyst (42). Weakest: historical_valuation (29.3)."
+        },
+        "f04": {
+            "ticker": "AAPL",
+            "factor_id": "f04",
+            "factor_name": "Catalyst Strength",
+            "display_name": "Catalyst Strength",
+            "score_0_100": 75.1,
+            "confidence": "Medium",
+            "status": "PARTIAL",
+            "trend": "Improving",
+            "prior_score": 69.9,
+            "score_change": 5.2,
+            "weighted_input_availability": 0.7,
+            "subfactor_scores": [
+                {
+                    "subfactor": "financial_impact",
+                    "weight": 0.3,
+                    "score": 76,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "September-quarter iPhone revenue rose 17% to $57.6 billion; Mac rose 24% to $10.8 billion.",
+                    "counter": "The call does not quantify incremental profit from Duo or Siri AI.",
+                    "basis": "fact",
+                    "confidence": "High",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "probability_evidence",
+                    "weight": 0.25,
+                    "score": 73,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "iPhone achieved a September-quarter revenue record and worldwide upgrader record.",
+                    "counter": "Duo's early customer response has not been quantified.",
+                    "basis": "fact",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "timing",
+                    "weight": 0.15,
+                    "score": 77,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "iPhone Duo launched in September; Siri AI beta expanded to five additional languages in October.",
+                    "counter": "No timeline was provided for material Siri AI monetization.",
+                    "basis": "fact",
+                    "confidence": "High",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "revision_potential",
+                    "weight": 0.2,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "Latest-quarter revenue grew 11.7% year over year.",
+                    "counter": "Consensus forecasts and 90-day EPS revisions were not supplied.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Low",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "not_reflected",
+                    "weight": 0.1,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "Duo and Siri AI are recently launched products.",
+                    "counter": "No valuation multiple, market expectations or catalyst-specific estimates establish what the price reflects.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Low",
+                    "source": "ai"
+                }
+            ],
+            "evidence": [
+                "financial_impact: September-quarter iPhone revenue rose 17% to $57.6 billion; Mac rose 24% to $10.8 billion.",
+                "probability_evidence: iPhone achieved a September-quarter revenue record and worldwide upgrader record.",
+                "timing: iPhone Duo launched in September; Siri AI beta expanded to five additional languages in October."
+            ],
+            "counter_evidence": [
+                "financial_impact: The call does not quantify incremental profit from Duo or Siri AI.",
+                "probability_evidence: Duo's early customer response has not been quantified.",
+                "timing: No timeline was provided for material Siri AI monetization."
+            ],
+            "missing_inputs": [
+                "revision_potential: Latest-quarter revenue grew 11.7% year over year.",
+                "not_reflected: Duo and Siri AI are recently launched products."
+            ],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: timing (77). Weakest: probability_evidence (73)."
+        },
+        "f05": {
+            "ticker": "AAPL",
+            "factor_id": "f05",
+            "factor_name": "Cyclical vs. Secular Growth",
+            "display_name": "Cyclical vs. Secular Growth",
+            "score_0_100": 66.4,
+            "confidence": "Medium",
+            "status": "OK",
+            "trend": "Stable",
+            "prior_score": 68.2,
+            "score_change": -1.8,
+            "weighted_input_availability": 1,
+            "subfactor_scores": [
+                {
+                    "subfactor": "tam_penetration",
+                    "weight": 0.25,
+                    "score": 62,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Management identifies health, emerging markets, enterprise and education as opportunities.",
+                    "counter": "The installed base exceeds 2.5 billion active devices; addressable-market penetration was not provided.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "structural_demand",
+                    "weight": 0.25,
+                    "score": 76,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "More than 2.5 billion active devices support recurring demand for upgrades and services.",
+                    "counter": "Device upgrades can fluctuate with product cycles.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "market_share",
+                    "weight": 0.2,
+                    "score": 68,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Management cited IDC data indicating Mac gained global share in the quarter and fiscal year.",
+                    "counter": "No comparable iPhone share gain or share percentage was provided.",
+                    "basis": "management_guidance",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "cyclical_sensitivity",
+                    "weight": 0.15,
+                    "score": 52,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Services and a 2.5-billion-device installed base diversify demand beyond new hardware.",
+                    "counter": "iPhone contributed $57.6 billion of $114.5 billion quarterly revenue.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "duration_visibility",
+                    "weight": 0.15,
+                    "score": 70,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Large installed base and record Services revenue support a continuing ecosystem opportunity.",
+                    "counter": "The excerpt provides no multiyear revenue or retention forecast.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                }
+            ],
+            "evidence": [
+                "tam_penetration: Management identifies health, emerging markets, enterprise and education as opportunities.",
+                "structural_demand: More than 2.5 billion active devices support recurring demand for upgrades and services.",
+                "market_share: Management cited IDC data indicating Mac gained global share in the quarter and fiscal year.",
+                "cyclical_sensitivity: Services and a 2.5-billion-device installed base diversify demand beyond new hardware.",
+                "duration_visibility: Large installed base and record Services revenue support a continuing ecosystem opportunity."
+            ],
+            "counter_evidence": [
+                "tam_penetration: The installed base exceeds 2.5 billion active devices; addressable-market penetration was not provided.",
+                "structural_demand: Device upgrades can fluctuate with product cycles.",
+                "market_share: No comparable iPhone share gain or share percentage was provided.",
+                "cyclical_sensitivity: iPhone contributed $57.6 billion of $114.5 billion quarterly revenue.",
+                "duration_visibility: The excerpt provides no multiyear revenue or retention forecast."
+            ],
+            "missing_inputs": [],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: structural_demand (76). Weakest: cyclical_sensitivity (52)."
+        },
+        "f06": {
+            "ticker": "AAPL",
+            "factor_id": "f06",
+            "factor_name": "Capital Allocation",
+            "display_name": "Capital Allocation",
+            "score_0_100": 78.2,
+            "confidence": "Medium",
+            "status": "PARTIAL",
+            "trend": "Stable",
+            "prior_score": 76.7,
+            "score_change": 1.5,
+            "weighted_input_availability": 0.8,
+            "subfactor_scores": [
+                {
+                    "subfactor": "internal_reinvestment",
+                    "weight": 0.3,
+                    "score": 76,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Duo, touch-enabled Mac and Siri AI demonstrate investment across hardware and software.",
+                    "counter": "Returns on these initiatives were not disclosed; capex was 1.9% of revenue.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "mna",
+                    "weight": 0.2,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "No acquisition or acquisition-return information was supplied.",
+                    "counter": "An M&A record and deal economics are needed to assess allocation.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Low",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "per_share_discipline",
+                    "weight": 0.2,
+                    "score": 83.3,
+                    "raw": -2.4951,
+                    "status": "OK",
+                    "note": "YoY change in shares outstanding",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "balance_sheet",
+                    "weight": 0.2,
+                    "score": 81.6,
+                    "raw": 0.2537,
+                    "status": "OK",
+                    "note": "Net debt / EBITDA",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "consistency",
+                    "weight": 0.1,
+                    "score": 68,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Management reported record fiscal-year revenue and EPS; TTM free-cash-flow margin was 28.4%.",
+                    "counter": "No multiyear capital-allocation or shareholder-return history was supplied.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                }
+            ],
+            "evidence": [
+                "internal_reinvestment: Duo, touch-enabled Mac and Siri AI demonstrate investment across hardware and software.",
+                "per_share_discipline: YoY change in shares outstanding",
+                "balance_sheet: Net debt / EBITDA",
+                "consistency: Management reported record fiscal-year revenue and EPS; TTM free-cash-flow margin was 28.4%."
+            ],
+            "counter_evidence": [
+                "internal_reinvestment: Returns on these initiatives were not disclosed; capex was 1.9% of revenue.",
+                "consistency: No multiyear capital-allocation or shareholder-return history was supplied."
+            ],
+            "missing_inputs": [
+                "mna: No acquisition or acquisition-return information was supplied."
+            ],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: per_share_discipline (83.3). Weakest: consistency (68)."
+        },
+        "f07": {
+            "ticker": "AAPL",
+            "factor_id": "f07",
+            "factor_name": "2X / 5X / 10X Potential",
+            "display_name": "2X / 5X / 10X Potential",
+            "score_0_100": 65.5,
+            "confidence": "Medium",
+            "status": "PARTIAL",
+            "trend": "Stable",
+            "prior_score": 62.8,
+            "score_change": 2.7,
+            "weighted_input_availability": 0.85,
+            "subfactor_scores": [
+                {
+                    "subfactor": "tam_runway",
+                    "weight": 0.25,
+                    "score": 59,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Management highlights AI, health, emerging markets, enterprise and education.",
+                    "counter": "At $478.8 billion TTM revenue, substantial growth requires very large incremental markets.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "earnings_fcf_scale",
+                    "weight": 0.2,
+                    "score": 84.6,
+                    "raw": 28.414,
+                    "status": "OK",
+                    "note": "FCF margin TTM",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "share_adjacencies",
+                    "weight": 0.15,
+                    "score": 71,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Mac gained share; a Philippines education deal covers 170,000 MacBook Neos.",
+                    "counter": "No revenue contribution or scalability estimate was supplied for the deal.",
+                    "basis": "fact",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "reinvestment",
+                    "weight": 0.15,
+                    "score": 69,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "A 28.4% TTM free-cash-flow margin provides capacity to fund new products.",
+                    "counter": "Incremental returns and reinvestment commitments were not quantified.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "starting_valuation",
+                    "weight": 0.15,
+                    "score": null,
+                    "raw": null,
+                    "status": "NOT_MEANINGFUL",
+                    "note": "NM: next-FY EPS not positive",
+                    "basis": "consensus",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "constraints",
+                    "weight": 0.1,
+                    "score": 30,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "TTM revenue grew, and net debt to EBITDA was 0.25.",
+                    "counter": "A $5.17 trillion market capitalization makes 2X, 5X or 10X outcomes progressively demanding.",
+                    "basis": "jarvis_inference",
+                    "confidence": "High",
+                    "source": "ai"
+                }
+            ],
+            "evidence": [
+                "tam_runway: Management highlights AI, health, emerging markets, enterprise and education.",
+                "earnings_fcf_scale: FCF margin TTM",
+                "share_adjacencies: Mac gained share; a Philippines education deal covers 170,000 MacBook Neos.",
+                "reinvestment: A 28.4% TTM free-cash-flow margin provides capacity to fund new products.",
+                "constraints: TTM revenue grew, and net debt to EBITDA was 0.25."
+            ],
+            "counter_evidence": [
+                "tam_runway: At $478.8 billion TTM revenue, substantial growth requires very large incremental markets.",
+                "share_adjacencies: No revenue contribution or scalability estimate was supplied for the deal.",
+                "reinvestment: Incremental returns and reinvestment commitments were not quantified.",
+                "constraints: A $5.17 trillion market capitalization makes 2X, 5X or 10X outcomes progressively demanding."
+            ],
+            "missing_inputs": [
+                "starting_valuation: NM: next-FY EPS not positive"
+            ],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: earnings_fcf_scale (84.6). Weakest: constraints (30)."
+        },
+        "f08": {
+            "ticker": "AAPL",
+            "factor_id": "f08",
+            "factor_name": "Competitive Position",
+            "display_name": "Competitive Position",
+            "score_0_100": 73.5,
+            "confidence": "Medium",
+            "status": "OK",
+            "trend": "Deteriorating",
+            "prior_score": 78.6,
+            "score_change": -5.1,
+            "weighted_input_availability": 1,
+            "subfactor_scores": [
+                {
+                    "subfactor": "pricing_value",
+                    "weight": 0.2,
+                    "score": 72,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "A 33% TTM operating margin is consistent with substantial realized customer value.",
+                    "counter": "No direct pricing, discounting or gross-margin-by-product evidence was supplied.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "retention_switching",
+                    "weight": 0.2,
+                    "score": 77,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "More than 2.5 billion active devices and record worldwide iPhone upgraders suggest ecosystem engagement.",
+                    "counter": "Customer retention and switching-cost measures were not supplied.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "product_advantage",
+                    "weight": 0.2,
+                    "score": 75,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Management described Duo's integrated hardware-software design and Mac's private on-device AI capabilities.",
+                    "counter": "Independent comparative performance or satisfaction data were not supplied.",
+                    "basis": "management_guidance",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "share_competition",
+                    "weight": 0.2,
+                    "score": 65,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Management cited IDC data showing Mac gained global share during the quarter and fiscal year.",
+                    "counter": "No quantified share trends were supplied for iPhone or other categories.",
+                    "basis": "management_guidance",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "innovation",
+                    "weight": 0.1,
+                    "score": 80,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Duo, touch-enabled Mac and multilingual Siri AI beta launched during the recent product cycle.",
+                    "counter": "The products' sustained commercial impact remains unproven.",
+                    "basis": "fact",
+                    "confidence": "High",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "moat_durability",
+                    "weight": 0.1,
+                    "score": 77,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "More than 2.5 billion active devices connect Apple's products, software and services.",
+                    "counter": "Tariffs and legal or regulatory proceedings could weaken ecosystem economics.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                }
+            ],
+            "evidence": [
+                "pricing_value: A 33% TTM operating margin is consistent with substantial realized customer value.",
+                "retention_switching: More than 2.5 billion active devices and record worldwide iPhone upgraders suggest ecosystem engagement.",
+                "product_advantage: Management described Duo's integrated hardware-software design and Mac's private on-device AI capabilities.",
+                "share_competition: Management cited IDC data showing Mac gained global share during the quarter and fiscal year.",
+                "innovation: Duo, touch-enabled Mac and multilingual Siri AI beta launched during the recent product cycle.",
+                "moat_durability: More than 2.5 billion active devices connect Apple's products, software and services."
+            ],
+            "counter_evidence": [
+                "pricing_value: No direct pricing, discounting or gross-margin-by-product evidence was supplied.",
+                "retention_switching: Customer retention and switching-cost measures were not supplied.",
+                "product_advantage: Independent comparative performance or satisfaction data were not supplied.",
+                "share_competition: No quantified share trends were supplied for iPhone or other categories.",
+                "innovation: The products' sustained commercial impact remains unproven.",
+                "moat_durability: Tariffs and legal or regulatory proceedings could weaken ecosystem economics."
+            ],
+            "missing_inputs": [],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: innovation (80). Weakest: share_competition (65)."
+        },
+        "f09": {
+            "ticker": "AAPL",
+            "factor_id": "f09",
+            "factor_name": "Margin Runway",
+            "display_name": "Margin Runway",
+            "score_0_100": 63.5,
+            "confidence": "Medium",
+            "status": "PARTIAL",
+            "trend": "Deteriorating",
+            "prior_score": 67.6,
+            "score_change": -4.1,
+            "weighted_input_availability": 0.85,
+            "subfactor_scores": [
+                {
+                    "subfactor": "current_direction",
+                    "weight": 0.25,
+                    "score": 60.4,
+                    "raw": 1.0392,
+                    "status": "OK",
+                    "note": "Operating margin TTM vs year ago",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "normalized_opportunity",
+                    "weight": 0.2,
+                    "score": 43,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Services achieved an all-time quarterly revenue record.",
+                    "counter": "TTM operating margin is already 33%; no normalized-margin target was supplied.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "operating_leverage",
+                    "weight": 0.2,
+                    "score": 79.9,
+                    "raw": 39.9103,
+                    "status": "OK",
+                    "note": "Incremental operating margin",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "mix_pricing",
+                    "weight": 0.15,
+                    "score": 62,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Record Services revenue offers a potential favorable mix driver.",
+                    "counter": "Services growth rate, segment margins and product pricing changes were not provided.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Low",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "forward_evidence",
+                    "weight": 0.15,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "TTM operating margin was 33%.",
+                    "counter": "The supplied call excerpt lacks forward gross-margin or operating-margin guidance.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Low",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "capital_intensity",
+                    "weight": 0.05,
+                    "score": 100,
+                    "raw": 1.8881,
+                    "status": "OK",
+                    "note": "Capex / revenue",
+                    "basis": "fact",
+                    "source": "calculated"
+                }
+            ],
+            "evidence": [
+                "current_direction: Operating margin TTM vs year ago",
+                "normalized_opportunity: Services achieved an all-time quarterly revenue record.",
+                "operating_leverage: Incremental operating margin",
+                "mix_pricing: Record Services revenue offers a potential favorable mix driver.",
+                "capital_intensity: Capex / revenue"
+            ],
+            "counter_evidence": [
+                "normalized_opportunity: TTM operating margin is already 33%; no normalized-margin target was supplied.",
+                "mix_pricing: Services growth rate, segment margins and product pricing changes were not provided."
+            ],
+            "missing_inputs": [
+                "forward_evidence: TTM operating margin was 33%."
+            ],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: capital_intensity (100). Weakest: normalized_opportunity (43)."
+        },
+        "f10": {
+            "ticker": "AAPL",
+            "factor_id": "f10",
+            "factor_name": "Momentum",
+            "display_name": "Momentum",
+            "score_0_100": 77.9,
+            "confidence": "Low",
+            "status": "PARTIAL",
+            "trend": "Improving",
+            "prior_score": 57.6,
+            "score_change": 20.3,
+            "weighted_input_availability": 0.65,
+            "subfactor_scores": [
+                {
+                    "subfactor": "price_relative_strength",
+                    "weight": 0.3,
+                    "score": 86.7,
+                    "raw": 16.1458,
+                    "status": "OK",
+                    "note": "RS vs SPY (6m/12m avg) + price vs 200-day",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "eps_revisions",
+                    "weight": 0.25,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "30D/90D revision momentum",
+                    "basis": "consensus",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "price_acceleration",
+                    "weight": 0.2,
+                    "score": 73.5,
+                    "raw": 14.1009,
+                    "status": "OK",
+                    "note": "Last 3m return minus prior 3m",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "earnings_confirmation",
+                    "weight": 0.15,
+                    "score": 66,
+                    "raw": 2.8673,
+                    "status": "OK",
+                    "note": "Post-earnings relative move + EPS surprise",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "operating_guidance",
+                    "weight": 0.1,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "Latest-quarter revenue grew 11.7% year over year.",
+                    "counter": "The supplied call excerpt contains no quantified next-quarter operating guidance.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Low",
+                    "source": "ai"
+                }
+            ],
+            "evidence": [
+                "price_relative_strength: RS vs SPY (6m/12m avg) + price vs 200-day",
+                "price_acceleration: Last 3m return minus prior 3m",
+                "earnings_confirmation: Post-earnings relative move + EPS surprise"
+            ],
+            "counter_evidence": [],
+            "missing_inputs": [
+                "eps_revisions: 30D/90D revision momentum",
+                "operating_guidance: Latest-quarter revenue grew 11.7% year over year."
+            ],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: price_relative_strength (86.7). Weakest: earnings_confirmation (66)."
+        },
+        "f11": {
+            "ticker": "AAPL",
+            "factor_id": "f11",
+            "factor_name": "Key Thesis Dependency",
+            "display_name": "iPhone Ecosystem Dependency",
+            "proposed_display_name": "iPhone Upgrade Dependency",
+            "review_flag": "Dependency label change proposed - needs Left Brain review",
+            "score_0_100": 63.3,
+            "confidence": "Medium",
+            "status": "OK",
+            "trend": "Stable",
+            "prior_score": 65.6,
+            "score_change": -2.3,
+            "weighted_input_availability": 1,
+            "subfactor_scores": [
+                {
+                    "subfactor": "concentration",
+                    "weight": 0.25,
+                    "score": 42,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "iPhone generated $57.6 billion of $114.5 billion September-quarter revenue.",
+                    "counter": "Services, Mac, iPad and Wearables provide other revenue sources.",
+                    "basis": "fact",
+                    "confidence": "High",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "driver_durability",
+                    "weight": 0.25,
+                    "score": 69,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Record worldwide iPhone upgraders and over 2.5 billion active devices support future upgrade demand.",
+                    "counter": "Duo's reception has not yet established a sustained upgrade cycle.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "evidence",
+                    "weight": 0.2,
+                    "score": 77,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "iPhone revenue rose 17% to $57.6 billion despite supply constraints and foreign-exchange headwinds.",
+                    "counter": "One strong quarter does not establish multiyear growth.",
+                    "basis": "fact",
+                    "confidence": "High",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "alternative_drivers",
+                    "weight": 0.15,
+                    "score": 69,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Mac revenue rose 24% to $10.8 billion; Services set an all-time quarterly revenue record.",
+                    "counter": "The excerpt does not quantify Services growth or its ability to offset iPhone weakness.",
+                    "basis": "fact",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "downside_resilience",
+                    "weight": 0.15,
+                    "score": 65,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "TTM free-cash-flow margin was 28.4%, with net debt to EBITDA of 0.25.",
+                    "counter": "iPhone concentration and a $5.17 trillion valuation leave exposure to disappointing upgrades.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                }
+            ],
+            "evidence": [
+                "concentration: iPhone generated $57.6 billion of $114.5 billion September-quarter revenue.",
+                "driver_durability: Record worldwide iPhone upgraders and over 2.5 billion active devices support future upgrade demand.",
+                "evidence: iPhone revenue rose 17% to $57.6 billion despite supply constraints and foreign-exchange headwinds.",
+                "alternative_drivers: Mac revenue rose 24% to $10.8 billion; Services set an all-time quarterly revenue record.",
+                "downside_resilience: TTM free-cash-flow margin was 28.4%, with net debt to EBITDA of 0.25."
+            ],
+            "counter_evidence": [
+                "concentration: Services, Mac, iPad and Wearables provide other revenue sources.",
+                "driver_durability: Duo's reception has not yet established a sustained upgrade cycle.",
+                "evidence: One strong quarter does not establish multiyear growth.",
+                "alternative_drivers: The excerpt does not quantify Services growth or its ability to offset iPhone weakness.",
+                "downside_resilience: iPhone concentration and a $5.17 trillion valuation leave exposure to disappointing upgrades."
+            ],
+            "missing_inputs": [],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: evidence (77). Weakest: concentration (42)."
+        },
+        "f12": {
+            "ticker": "AAPL",
+            "factor_id": "f12",
+            "factor_name": "Position Risk",
+            "display_name": "Position Risk",
+            "score_0_100": 65.9,
+            "confidence": "Medium",
+            "status": "PARTIAL",
+            "trend": "Deteriorating",
+            "prior_score": 69,
+            "score_change": -3.1,
+            "weighted_input_availability": 0.8,
+            "subfactor_scores": [
+                {
+                    "subfactor": "fundamental_resilience",
+                    "weight": 0.25,
+                    "score": 70.2,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Average of Profit Acceleration inputs",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "valuation_risk",
+                    "weight": 0.2,
+                    "score": null,
+                    "raw": null,
+                    "status": "DATA_UNAVAILABLE",
+                    "note": "Forward P/E",
+                    "basis": "consensus",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "financial_risk",
+                    "weight": 0.15,
+                    "score": 81.6,
+                    "raw": 0.2537,
+                    "status": "OK",
+                    "note": "Net debt / EBITDA",
+                    "basis": "fact",
+                    "source": "calculated"
+                },
+                {
+                    "subfactor": "business_cyclical",
+                    "weight": 0.15,
+                    "score": 52,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Reuses Factor 5 cyclical sensitivity: Services and a 2.5-billion-device installed base diversify demand beyond new hardware.",
+                    "counter": "iPhone contributed $57.6 billion of $114.5 billion quarterly revenue.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "execution_concentration",
+                    "weight": 0.15,
+                    "score": 53,
+                    "raw": null,
+                    "status": "OK",
+                    "note": "Existing iPhone, Mac and Services records reduce reliance on any single unlaunched product.",
+                    "counter": "Duo supply constraints and unquantified Siri AI monetization complicate execution.",
+                    "basis": "jarvis_inference",
+                    "confidence": "Medium",
+                    "source": "ai"
+                },
+                {
+                    "subfactor": "market_risk",
+                    "weight": 0.1,
+                    "score": 71.5,
+                    "raw": 23.7125,
+                    "status": "OK",
+                    "note": "Volatility + beta",
+                    "basis": "fact",
+                    "source": "calculated"
+                }
+            ],
+            "evidence": [
+                "fundamental_resilience: Average of Profit Acceleration inputs",
+                "financial_risk: Net debt / EBITDA",
+                "business_cyclical: Reuses Factor 5 cyclical sensitivity: Services and a 2.5-billion-device installed base diversify demand beyond new hardware.",
+                "execution_concentration: Existing iPhone, Mac and Services records reduce reliance on any single unlaunched product.",
+                "market_risk: Volatility + beta"
+            ],
+            "counter_evidence": [
+                "business_cyclical: iPhone contributed $57.6 billion of $114.5 billion quarterly revenue.",
+                "execution_concentration: Duo supply constraints and unquantified Siri AI monetization complicate execution."
+            ],
+            "missing_inputs": [
+                "valuation_risk: Forward P/E"
+            ],
+            "calculation_timestamp": "2026-11-13T08:56:33.012Z",
+            "methodology_version": "1.0",
+            "explanation": "Strongest: financial_risk (81.6). Weakest: business_cyclical (52)."
+        }
+    },
+    "position_risk": {
+        "score": 65.9,
+        "label": "Moderate risk"
+    },
+    "key_catalysts": [
+        "iPhone Duo and iPhone 18 upgrade cycle",
+        "Services growth across more than 2.5 billion active devices",
+        "Siri AI expansion and new Mac products"
+    ],
+    "main_risks": [
+        "iPhone remains the largest reported revenue category",
+        "Supply constraints, tariffs and regulatory proceedings",
+        "High market capitalization limits plausible return multiples"
+    ],
+    "what_changed_items": [
+        "Jarvis Score 66.9 -> 69.8",
+        "growth -7",
+        "momentum +20.3",
+        "Revenue Acceleration -15.3",
+        "Profit Acceleration -6.6",
+        "Catalyst Strength +5.2",
+        "Competitive Position -5.1",
+        "Momentum +20.3"
+    ],
+    "raw_inputs": [
+        {
+            "name": "price",
+            "value": 354.88,
+            "unit": "USD",
+            "source": "Alpha Vantage GLOBAL_QUOTE",
+            "source_date": "2026-11-12",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "market_cap",
+            "value": 5168079831000,
+            "unit": "USD",
+            "source": "Alpha Vantage OVERVIEW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "revenue_yoy_growth_latest_q",
+            "value": 11.7219,
+            "unit": "%",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "revenue_yoy_growth_prior_q",
+            "value": 16.3565,
+            "unit": "%",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-06-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "revenue_acceleration",
+            "value": -4.6346,
+            "unit": "pp",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "forward_revenue_growth_next_fy",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "revenue_ttm",
+            "value": 478834000000,
+            "unit": "USD",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "operating_income_ttm",
+            "value": 158063000000,
+            "unit": "USD",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "operating_income_growth_ttm",
+            "value": 18.7997,
+            "unit": "%",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "eps_growth_ttm",
+            "value": 19.411,
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "net_income_ttm",
+            "value": 132175000000,
+            "unit": "USD",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "fcf_ttm",
+            "value": 136056000000,
+            "unit": "USD",
+            "source": "Alpha Vantage CASH_FLOW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "capex_ttm",
+            "value": 9041000000,
+            "unit": "USD",
+            "source": "Alpha Vantage CASH_FLOW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "fcf_conversion",
+            "value": 1.0294,
+            "unit": "x",
+            "source": "Alpha Vantage CASH_FLOW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "fcf_margin",
+            "value": 28.414,
+            "unit": "%",
+            "source": "Alpha Vantage CASH_FLOW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "eps_next_fy_consensus",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "USD",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "eps_revision_d7",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "eps_revision_d30",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "eps_revision_d60",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "eps_revision_d90",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "forward_pe",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "x",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "forward_eps_growth",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "peg_forward",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "x",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "ebitda_ttm",
+            "value": 172660000000,
+            "unit": "USD",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "net_debt_to_ebitda",
+            "value": 0.2537,
+            "unit": "x",
+            "source": "Alpha Vantage BALANCE_SHEET",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "share_count_change_yoy",
+            "value": -2.4951,
+            "unit": "%",
+            "source": "Alpha Vantage BALANCE_SHEET",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "roic_ttm",
+            "value": 84.1574,
+            "unit": "%",
+            "source": "Alpha Vantage INCOME_STATEMENT/BALANCE_SHEET",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "operating_margin_ttm",
+            "value": 33.01,
+            "unit": "%",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "operating_margin_change_yoy",
+            "value": 1.0392,
+            "unit": "pp",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "incremental_operating_margin",
+            "value": 39.9103,
+            "unit": "%",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "operating_margin_stdev_8q",
+            "value": 1.6944,
+            "unit": "pp",
+            "source": "Alpha Vantage INCOME_STATEMENT",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "capex_to_revenue",
+            "value": 1.8881,
+            "unit": "%",
+            "source": "Alpha Vantage CASH_FLOW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "pe_vs_3y_median",
+            "value": 1.2073,
+            "unit": "x",
+            "source": "Alpha Vantage INCOME_STATEMENT/WEEKLY",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "relative_strength_6m",
+            "value": 15.4521,
+            "unit": "pp",
+            "source": "Alpha Vantage TIME_SERIES_WEEKLY_ADJUSTED",
+            "source_date": "2026-11-12",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "relative_strength_12m",
+            "value": 16.8394,
+            "unit": "pp",
+            "source": "Alpha Vantage TIME_SERIES_WEEKLY_ADJUSTED",
+            "source_date": "2026-11-12",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "price_vs_200dma",
+            "value": 18.3801,
+            "unit": "%",
+            "source": "Alpha Vantage OVERVIEW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "price_acceleration_3m",
+            "value": 14.1009,
+            "unit": "pp",
+            "source": "Alpha Vantage TIME_SERIES_WEEKLY_ADJUSTED",
+            "source_date": "2026-11-12",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "earnings_price_reaction",
+            "value": 2.8673,
+            "unit": "pp",
+            "source": "Alpha Vantage TIME_SERIES_WEEKLY_ADJUSTED",
+            "source_date": "2026-11-02",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "eps_surprise_latest",
+            "value": 3.5354,
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS",
+            "source_date": "2026-11-02",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "volatility_annualised",
+            "value": 23.7125,
+            "unit": "%",
+            "source": "Alpha Vantage TIME_SERIES_WEEKLY_ADJUSTED",
+            "source_date": "2026-11-12",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "beta",
+            "value": 1.089,
+            "unit": "x",
+            "source": "Alpha Vantage OVERVIEW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "analyst_target_upside",
+            "value": -2.8911,
+            "unit": "%",
+            "source": "Alpha Vantage OVERVIEW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "fcf_yield",
+            "value": 2.6326,
+            "unit": "%",
+            "source": "Alpha Vantage CASH_FLOW/OVERVIEW",
+            "source_date": "2026-09-30",
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        },
+        {
+            "name": "forward_earnings_yield",
+            "value": "DATA_UNAVAILABLE",
+            "unit": "%",
+            "source": "Alpha Vantage EARNINGS_ESTIMATES",
+            "source_date": null,
+            "retrieved_at": "2026-11-13T08:56:33.012Z",
+            "data_provider": "Alpha Vantage"
+        }
+    ],
+    "missing_inputs": [],
+    "analyst_score": null,
+    "analyst_divergence": null,
+    "jarvis_take": "Apple’s 69.8 score points to a solid but not unqualified outlook, with medium confidence. Quality (84.6) and momentum (77.9) are the strongest supports: iPhone revenue rose 17% and Mac revenue 24% in the September quarter, with positive year-over-year growth in four of four quarters. The main constraints are valuation (51.3) and modest revenue acceleration; at a $5.17 trillion market capitalization, upside is uncertain, and incremental profits from AI and new products have not been quantified.",
+    "what_changed": "The score rose from 66.9 to 69.8, led by a 20.3-point improvement in momentum. Growth fell 7 points, including a 15.3-point decline in Revenue Acceleration.",
+    "what_would_change_score": "Evidence that Duo, Siri AI, Services and new Macs are generating material incremental revenue and profit could strengthen the outlook. A forward valuation measure and clearer evidence on product margins, supply constraints and regulatory risks would help assess whether the current market capitalization leaves room for attractive returns."
+}
