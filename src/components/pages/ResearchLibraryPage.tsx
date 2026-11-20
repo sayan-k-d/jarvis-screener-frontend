@@ -327,6 +327,7 @@ function Home({ onOpen }: { onOpen: (id: string) => void }) {
   const [fileB, setFileB] = useState<File | null>(null);
   const [focus, setFocus] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [uploadPct, setUploadPct] = useState<number | null>(null);
   const [formError, setFormError] = useState("");
   const [q, setQ] = useState("");
   const [toDelete, setToDelete] = useState<ResearchSummary | null>(null);
@@ -360,7 +361,8 @@ function Home({ onOpen }: { onOpen: (id: string) => void }) {
     setFormError("");
     setUploading(true);
     try {
-      const { id } = await researchApi.create(fileA, fileB, focus);
+      setUploadPct(0);
+      const { id } = await researchApi.create(fileA, fileB, focus, setUploadPct);
       setFileA(null);
       setFileB(null);
       setFocus("");
@@ -369,6 +371,7 @@ function Home({ onOpen }: { onOpen: (id: string) => void }) {
       setFormError((e as Error).message);
     }
     setUploading(false);
+    setUploadPct(null);
   };
 
   const filtered = useMemo(() => {
@@ -456,7 +459,7 @@ function Home({ onOpen }: { onOpen: (id: string) => void }) {
               disabled={!fileA || !fileB || uploading || status?.hasKey === false}
             >
               {uploading ? (
-                "Uploading…"
+                uploadPct !== null && uploadPct > 0 && uploadPct < 100 ? `Uploading… ${uploadPct}%` : "Uploading…"
               ) : (
                 <>
                   Analyze &amp; compare <Icon name="send" />

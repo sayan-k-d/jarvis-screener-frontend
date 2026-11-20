@@ -117,16 +117,73 @@ async function jf<T>(path: string, opts?: RequestInit): Promise<T> {
   return res.json();
 }
 
+// Both files together in one request must stay under the host's body limit (4.5 MB on Vercel).
+const DIRECT_LIMIT = 3.5 * 1024 * 1024;
+const CHUNK_BYTES = 3 * 1024 * 1024;
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** Sends one file to the server in pieces; returns what the server needs to stitch it together. */
+async function uploadInChunks(file: File, onBytes: (n: number) => void): Promise<{ uploadId: string; chunks: number }> {
+  const start = await jf<{ uploadId: string; maxChunkBytes: number }>("/api/research/uploads", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: file.name, size: file.size }),
+  });
+  const size = Math.min(CHUNK_BYTES, start.maxChunkBytes || CHUNK_BYTES);
+  const chunks = Math.ceil(file.size / size);
+  for (let i = 0; i < chunks; i++) {
+    const piece = file.slice(i * size, Math.min(file.size, (i + 1) * size));
+    const fd = new FormData();
+    fd.append("index", String(i));
+    fd.append("chunk", piece, "chunk");
+    for (let attempt = 1; ; attempt++) {
+      try {
+        await jf(`/api/research/uploads/${start.uploadId}/chunk`, { method: "POST", body: fd });
+        break;
+      } catch (e) {
+        if (attempt >= 3) throw e; // a flaky connection gets two retries per piece
+        await sleep(700 * attempt);
+      }
+    }
+    onBytes(piece.size);
+  }
+  return { uploadId: start.uploadId, chunks };
+}
+
 export const researchApi = {
   status: () => jf<{ hasKey: boolean; model: string }>("/api/research/status"),
   list: () => jf<ResearchSummary[]>("/api/research"),
   get: (id: string) => jf<ResearchRecord>(`/api/research/${id}`),
-  create: (a: File, b: File, focus: string) => {
-    const fd = new FormData();
-    fd.append("reportA", a);
-    fd.append("reportB", b);
-    if (focus.trim()) fd.append("focus", focus.trim());
-    return jf<{ id: string }>("/api/research/compare", { method: "POST", body: fd });
+  /**
+   * Upload two PDFs and start the analysis. Serverless hosts (e.g. Vercel) reject request
+   * bodies over ~4.5 MB, so anything bigger than DIRECT_LIMIT travels in small chunks that the
+   * server stitches back together. `onProgress` receives 0-100 while uploading.
+   */
+  create: async (a: File, b: File, focus: string, onProgress?: (pct: number) => void) => {
+    if (a.size + b.size <= DIRECT_LIMIT) {
+      const fd = new FormData();
+      fd.append("reportA", a);
+      fd.append("reportB", b);
+      if (focus.trim()) fd.append("focus", focus.trim());
+      onProgress?.(100);
+      return jf<{ id: string }>("/api/research/compare", { method: "POST", body: fd });
+    }
+    const total = a.size + b.size;
+    let sent = 0;
+    const bump = (n: number) => {
+      sent += n;
+      onProgress?.(Math.min(99, Math.round((sent / total) * 100)));
+    };
+    onProgress?.(0);
+    const upA = await uploadInChunks(a, bump);
+    const upB = await uploadInChunks(b, bump);
+    const res = await jf<{ id: string }>("/api/research/compare-uploads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ a: upA, b: upB, focus: focus.trim() }),
+    });
+    onProgress?.(100);
+    return res;
   },
   retry: (id: string) => jf<{ id: string }>(`/api/research/${id}/retry`, { method: "POST" }),
   remove: (id: string) => jf<{ ok: boolean }>(`/api/research/${id}`, { method: "DELETE" }),
