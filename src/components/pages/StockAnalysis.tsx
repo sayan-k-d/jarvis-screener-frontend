@@ -688,8 +688,38 @@ function ReportView({
 
   const riskPos = Math.max(0, Math.min(100, Number(risk.score) || 0));
 
+  // Branded print/PDF header (logo + created date/time). Refreshed at the moment of
+  // printing - whether from the button or Ctrl+P - so "Created" is when the PDF was made.
+  const stampRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const update = () => {
+      if (stampRef.current)
+        stampRef.current.textContent = `Created ${new Date().toLocaleString("en-US", {
+          dateStyle: "medium",
+          timeStyle: "short",
+        })}`;
+    };
+    update();
+    window.addEventListener("beforeprint", update);
+    return () => window.removeEventListener("beforeprint", update);
+  }, []);
+
   return (
     <div className="sa-wrap sa-report">
+      <table className="sa-print-table">
+        <thead>
+          <tr>
+            <td>
+              <div className="sa-print-head" aria-hidden="true">
+                <img src="/jarvis-logo.png" alt="Jarvis" />
+                <span ref={stampRef} />
+              </div>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
       <div className="sa-res-top">
         <div>
           <div className="sa-chips">
@@ -926,6 +956,10 @@ function ReportView({
       <p className="sa-disclaimer">
         This analysis is provided for informational purposes only and is not a recommendation to buy, sell or hold any security. Jarvis Scores are model outputs based on data available at the time of calculation and may change.
       </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -1496,8 +1530,26 @@ const SA_STYLES = `
   .sa-wire.flow { stroke-dasharray:none; }
 }
 
+/* ---------- print / Save PDF branding: the Jarvis logo + created date/time, repeated on every page ---------- */
+/* The report is wrapped in a table purely so the browser repeats its <thead> (the branded header)
+   at the top of EVERY printed page and reserves room for it. On screen the wrapper is invisible:
+   everything is a plain block and the header row is hidden. */
+.sa-print-table, .sa-print-table > tbody, .sa-print-table > tbody > tr, .sa-print-table > tbody > tr > td { display:block; padding:0; border:0; }
+.sa-print-table > thead { display:none; }
+@page { margin: 14mm 12mm 14mm; }
+
 /* ---------- print / Save PDF: a flat document — every section and factor expanded, tabs and buttons hidden ---------- */
 @media print {
+  .sa-print-table { display:table; width:100%; border-collapse:collapse; }
+  .sa-print-table > thead { display:table-header-group; }
+  .sa-print-table > thead > tr { display:table-row; }
+  .sa-print-table > thead > tr > td { display:table-cell; padding:0; border:0; }
+  .sa-print-table > tbody { display:table-row-group; }
+  .sa-print-table > tbody > tr { display:table-row; }
+  .sa-print-table > tbody > tr > td { display:table-cell; padding:0; border:0; }
+  .sa-print-head { display:flex; align-items:center; justify-content:space-between; padding-bottom:3mm; margin-bottom:6mm; border-bottom:1px solid #D5DED7; }
+  .sa-print-head img { height:12mm; width:auto; display:block; }
+  .sa-print-head span { font-size:9pt; color:#4B5E53; }
   body * { visibility: hidden !important; }
   .sa-report, .sa-report * { visibility: visible !important; }
   .sa-report { position:absolute; left:0; top:0; width:100%; max-width:none; padding:0; animation:none; color:#13261C;
