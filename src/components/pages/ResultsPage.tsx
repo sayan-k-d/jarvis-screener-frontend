@@ -3,6 +3,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useScreener } from "@/context/ScreenerContext";
 import { DeltaCell, TierBadge } from "@/components/ui";
 import { InfoTip, FORMULAS } from "@/components/InfoTip";
+import { fmtScore } from "@/lib/format";
 
 const PER = 10;
 
@@ -24,6 +25,7 @@ export default function ResultsPage({
   } = useScreener();
   const [q, setQ] = useState("");
   const [tier, setTier] = useState("");
+  const [gate, setGate] = useState(""); // "" | "pass" | "fail" - next-year revenue growth criterion
   const [sector, setSector] = useState("");
   const [minScore, setMinScore] = useState(0);
   const [sort, setSort] = useState("rank");
@@ -49,9 +51,11 @@ export default function ResultsPage({
           s.t.toLowerCase().includes(ql) ||
           (s.n || "").toLowerCase().includes(ql)) &&
         (!tier || s.tier === tier) &&
+        (!gate || (gate === "pass" ? !!s.passedGate : !s.passedGate)) &&
         (!sector || s.s === sector) &&
         s.sc >= minScore &&
-        (tierPill === "All" || s.tier === tierPill),
+        (tierPill === "All" ||
+          (tierPill === "Breakdown Watch" ? !!s.breakdown : s.tier === tierPill)),
     );
     const cmp: Record<string, (a: any, b: any) => number> = {
       score: (a, b) => b.sc - a.sc,
@@ -60,7 +64,7 @@ export default function ResultsPage({
       company: (a, b) => (a.n || "").localeCompare(b.n || ""),
     };
     return out.slice().sort(cmp[sort] || ((a, b) => a.r - b.r));
-  }, [rows, q, tier, sector, minScore, sort, tierPill]);
+  }, [rows, q, tier, gate, sector, minScore, sort, tierPill]);
 
   const tierCounts = useMemo(() => {
     const c: Record<string, number> = {
@@ -72,6 +76,8 @@ export default function ResultsPage({
     };
     rows.forEach((s) => {
       if (c[s.tier] !== undefined) c[s.tier]++;
+      // Breakdown Watch is a flag (negative revisions + price < 50D SMA), not a score tier.
+      if (s.breakdown) c["Breakdown Watch"]++;
     });
     return c;
   }, [rows]);
@@ -83,6 +89,7 @@ export default function ResultsPage({
   const reset = () => {
     setQ("");
     setTier("");
+    setGate("");
     setSector("");
     setMinScore(0);
     setSort("rank");
@@ -108,8 +115,8 @@ export default function ResultsPage({
           s.t,
           `"${(s.n || "").replace(/"/g, '""')}"`,
           s.s,
-          s.sc,
-          Math.round(s.d || 0),
+          fmtScore(s.sc),
+          fmtScore(s.d || 0),
           s.tier,
           s.conf ? "Yes" : "No",
         ].join(","),
@@ -139,7 +146,15 @@ export default function ResultsPage({
           <h3>Weekly Screener Results</h3>
           <div className="sub">
             {liveOn && meta
-              ? `Live run: ${new Date(meta.ranAt).toLocaleString()}`
+              ? `Run: ${new Date(meta.ranAt).toLocaleString()}${
+                  meta.priorRunAt
+                    ? ` · Δ vs ${new Date(meta.priorRunAt).toLocaleDateString()}`
+                    : ""
+                }${
+                  typeof meta.gatePassedN === "number"
+                    ? ` · ${meta.universeN} stocks scored · ${meta.gatePassedN} meet the >10% next-year revenue growth criterion`
+                    : ` · ${meta.universeN} stocks scored`
+                }`
               : hasKey === false
                 ? "No API key configured on the server"
                 : "Not yet run"}
@@ -247,6 +262,19 @@ export default function ResultsPage({
               <option key={t}>{t}</option>
             ),
           )}
+        </select>
+        <select
+          className="sel"
+          value={gate}
+          aria-label="Next-year revenue growth criterion"
+          onChange={(e) => {
+            setGate(e.target.value);
+            setPage(1);
+          }}
+        >
+          <option value="">Growth &gt;10%: All</option>
+          <option value="pass">Meets &gt;10% growth</option>
+          <option value="fail">Below 10% / no estimate</option>
         </select>
         <select
           className="sel"
@@ -361,7 +389,7 @@ export default function ResultsPage({
                 </td>
                 <td>{s.n}</td>
                 <td style={{ color: "var(--muted)" }}>{s.s}</td>
-                <td className="num">{s.sc}</td>
+                <td className="num">{fmtScore(s.sc)}</td>
                 <td>
                   <DeltaCell d={s.d} isNew={s.isNew} />
                 </td>

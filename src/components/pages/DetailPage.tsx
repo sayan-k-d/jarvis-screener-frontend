@@ -10,16 +10,21 @@ import {
   parseNews,
   sentimentBand,
   relTime,
+  fmtScore,
 } from "@/lib/format";
 import { TierBadge } from "@/components/ui";
 import { PriceChart, Sparkline, ScoreHistoryChart } from "@/components/Charts";
 import { InfoTip, FORMULAS } from "@/components/InfoTip";
 
 // Spec factor definitions, ported verbatim from the original app. Each factor's
-// val(r) reads the live raw metric; fKey maps to its percentile/zone score
+// val(r) reads the live raw metric; fKey maps to its 0-100 factor score
 // (row.factors[fKey]); w is the factor's weight within the composite (points).
 const fmtPctVal = (v: number, d = 1) =>
   isFinite(v) ? (v >= 0 ? "+" : "") + v.toFixed(d) + "%" : "—";
+const fmtPp = (v: number, d = 1) =>
+  isFinite(v) ? (v >= 0 ? "+" : "") + v.toFixed(d) + " pp" : "";
+const withChg = (base: string, chg: number) =>
+  base === "—" || !isFinite(chg) ? base : `${base} (${fmtPp(chg, 2)})`;
 
 interface GroupFactor {
   n: string;
@@ -43,21 +48,21 @@ const GROUPS: FactorGroup[] = [
     f: [
       {
         n: "1-Month Return vs. S&P 500",
-        desc: "30-day return minus SPY",
+        desc: "30-calendar-day return minus SPY (split-adjusted)",
         fKey: "f1",
         w: 10,
         val: (r) => fmtPctVal(r.rel30),
       },
       {
         n: "10-Day Return vs. S&P 500",
-        desc: "10-day return minus SPY",
+        desc: "10-calendar-day return minus SPY (split-adjusted)",
         fKey: "f2",
         w: 5,
         val: (r) => fmtPctVal(r.rel10),
       },
       {
         n: "YTD Return vs. S&P 500",
-        desc: "YTD return minus SPY",
+        desc: "Year-to-date return minus SPY (vs prior year-end close)",
         fKey: "f3",
         w: 9,
         val: (r) => fmtPctVal(r.relYTD),
@@ -113,15 +118,18 @@ const GROUPS: FactorGroup[] = [
       },
       {
         n: "Net Margin",
-        desc: "Profit margin",
+        desc: "Margin level + direction (latest quarter vs year ago)",
         fKey: "f9",
         w: 5,
         val: (r) =>
-          isFinite(r.netMargin) ? (r.netMargin * 100).toFixed(1) + "%" : "—",
+          withChg(
+            isFinite(r.netMargin) ? (r.netMargin * 100).toFixed(1) + "%" : "—",
+            r.netMarginChg,
+          ),
       },
       {
         n: "EPS Surprise % (Most Recent Q)",
-        desc: "Reported vs estimate",
+        desc: "Reported vs estimate — scales with size, +10% = max",
         fKey: "f10",
         w: 8,
         val: (r) => fmtPctVal(r.epsSurprise),
@@ -148,11 +156,17 @@ const GROUPS: FactorGroup[] = [
         val: (r) => (isFinite(r.pfcf) ? r.pfcf.toFixed(1) : "—"),
       },
       {
-        n: "Trailing P/E",
-        desc: "Lower is better — inverted",
+        n: "Trailing P/E vs. 5-Year Range",
+        desc: "Position in the stock's own 5-yr P/E range — lower is better",
         fKey: "f13",
         w: 4,
-        val: (r) => (isFinite(r.trailingPE) ? r.trailingPE.toFixed(1) : "—"),
+        val: (r) =>
+          isFinite(r.trailingPE)
+            ? r.trailingPE.toFixed(1) +
+              (isFinite(r.peHistPos)
+                ? ` (${Math.round(r.peHistPos * 100)}% of ${r.peHistMin.toFixed(0)}–${r.peHistMax.toFixed(0)}x range)`
+                : "")
+            : "—",
       },
     ],
   },
@@ -163,21 +177,27 @@ const GROUPS: FactorGroup[] = [
     f: [
       {
         n: "Revenue Growth YOY (Trailing)",
-        desc: "Quarterly revenue growth YoY",
+        desc: "Latest-quarter revenue growth YoY, bonus if accelerating",
         fKey: "f14",
         w: 4,
         val: (r) =>
-          isFinite(r.revGrowthYoY)
-            ? (r.revGrowthYoY * 100).toFixed(1) + "%"
-            : "—",
+          withChg(
+            isFinite(r.revGrowthYoY)
+              ? (r.revGrowthYoY * 100).toFixed(1) + "%"
+              : "—",
+            r.revAccel,
+          ),
       },
       {
         n: "Operating Margin TTM",
-        desc: "Operating margin",
+        desc: "Direction of change: TTM margin now vs one quarter ago",
         fKey: "f15",
         w: 4,
         val: (r) =>
-          isFinite(r.opMargin) ? (r.opMargin * 100).toFixed(1) + "%" : "—",
+          withChg(
+            isFinite(r.opMargin) ? (r.opMargin * 100).toFixed(1) + "%" : "—",
+            r.opMarginChg,
+          ),
       },
     ],
   },
@@ -216,9 +236,9 @@ function groupColor(v: number) {
   return v >= 85 ? "#12a150" : v >= 70 ? "#f2b705" : "#e03131";
 }
 
-// Percentile pill, ported from HTML pctPill(): >=85 green, >=60 amber, else red.
+// Score pill, ported from HTML pctPill(): >=85 green, >=60 amber, else red.
 function PctPill({ p }: { p: number }) {
-  const v = Math.round(p);
+  const v = p;
   const hi = v >= 85,
     mid = v >= 60;
   return (
@@ -232,7 +252,7 @@ function PctPill({ p }: { p: number }) {
         fontSize: 11,
       }}
     >
-      {v}
+      {fmtScore(v)}
     </span>
   );
 }
@@ -247,6 +267,18 @@ export default function DetailPage({ ticker }: { ticker: string }) {
   const [openG, setOpenG] = useState<string | null>("A");
   const [news, setNews] = useState<{ items: any[]; avg: number } | null>(null);
   const [newsLoading, setNewsLoading] = useState(false);
+  const [scoreHist, setScoreHist] = useState<number[]>([]);
+
+  useEffect(() => {
+    let alive = true;
+    api
+      .tickerHistory(ticker)
+      .then((h) => alive && setScoreHist(h.slice(-8).map((p) => p.score)))
+      .catch(() => alive && setScoreHist([]));
+    return () => {
+      alive = false;
+    };
+  }, [ticker]);
 
   useEffect(() => {
     let alive = true;
@@ -301,7 +333,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
     );
   if (!row) return null;
 
-  const dv = Math.round(row.d || 0);
+  const dv = Number.isFinite(row.d) ? row.d : 0; // exact change, 2 decimals
 
   return (
     <>
@@ -355,6 +387,26 @@ export default function DetailPage({ ticker }: { ticker: string }) {
         </div>
       </div>
 
+      {row.passedGate === false && (
+        <div
+          className="card card-pad"
+          style={{
+            marginBottom: 14,
+            fontSize: 12,
+            color: "var(--amber)",
+            background: "var(--amber-bg)",
+            lineHeight: 1.6,
+          }}
+        >
+          ⚠ Next-year revenue growth is{" "}
+          {isFinite(row.revNextGrowth)
+            ? row.revNextGrowth.toFixed(1) + "%"
+            : "unavailable"}
+          , which does not meet the 10% growth criterion. The stock is still
+          scored in full; the flag is shown for context.
+        </div>
+      )}
+
       <div className="grid g3" style={{ marginBottom: 14 }}>
         <div className="card card-pad" style={{ textAlign: "center" }}>
           <div
@@ -371,7 +423,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
               letterSpacing: "-.03em",
             }}
           >
-            {row.sc}
+            {fmtScore(row.sc)}
             <span
               style={{ fontSize: 15, color: "var(--muted)", fontWeight: 600 }}
             >
@@ -402,7 +454,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
           >
             {row.isNew
               ? "NEW"
-              : `${Math.abs(dv) <= 2 ? "— " : dv > 0 ? "▲ " : "▼ "}${Math.abs(dv) <= 2 ? (dv >= 0 ? "+" : "") + dv : Math.abs(dv)}`}
+              : `${Math.abs(dv) <= 2 ? "— " : dv > 0 ? "▲ " : "▼ "}${Math.abs(dv) <= 2 ? (dv >= 0 ? "+" : "") + fmtScore(dv) : fmtScore(Math.abs(dv))}`}
           </div>
           <div style={{ fontSize: 10.5, color: "var(--muted)", marginTop: 8 }}>
             {row.isNew ? "first appearance" : "vs last run"}
@@ -474,7 +526,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                             text={(FORMULAS as any)[g.L]}
                           />
                         </span>
-                        <b>{val}</b>
+                        <b>{fmtScore(val)}</b>
                       </div>
                       <div
                         style={{
@@ -503,11 +555,21 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                 >
                   Score History
                 </div>
-                <ScoreHistoryChart data={row.hist} />
+                {scoreHist.length >= 2 ? (
+                  <ScoreHistoryChart data={scoreHist} />
+                ) : (
+                  <div
+                    style={{ color: "var(--muted)", fontSize: 12.5, padding: 20 }}
+                  >
+                    Score history appears once this stock has been scored in at
+                    least two saved runs.
+                  </div>
+                )}
                 <div
                   style={{ fontSize: 11, color: "var(--muted)", marginTop: 8 }}
                 >
-                  Composite trend (last 8 runs, modeled)
+                  Composite score across the last {Math.max(scoreHist.length, 0)}{" "}
+                  saved run{scoreHist.length === 1 ? "" : "s"}
                 </div>
               </div>
             </div>
@@ -579,13 +641,13 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                 </select>
               </div>
               <span style={{ fontSize: 11, color: "var(--muted)" }}>
-                All scores are percentile ranks (0–100)
+                Each factor is scored 0–100 on a fixed scale, so a stock's score does not depend on which other stocks are screened
               </span>
             </div>
             <div style={{ padding: "0 18px 18px" }}>
               {factorView === "Factor Groups" ? (
                 GROUPS.map((g) => {
-                  const sub = Math.round(row[SUB_KEYS[g.L]] || 0);
+                  const sub = row[SUB_KEYS[g.L]] || 0;
                   const open = openG === g.L;
                   return (
                     <div
@@ -637,7 +699,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                             Group Weight: {g.w}%
                           </div>
                         </div>
-                        <b style={{ fontSize: 16 }}>{sub}</b>
+                        <b style={{ fontSize: 16 }}>{fmtScore(sub)}</b>
                         <span style={{ fontSize: 10, color: "var(--muted)" }}>
                           /100
                         </span>
@@ -664,7 +726,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                                 <th>Factor</th>
                                 <th>Description</th>
                                 <th>Value</th>
-                                <th>Percentile</th>
+                                <th>Score</th>
                                 <th>Weight</th>
                                 <th>
                                   Weighted
@@ -696,7 +758,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                                     </td>
                                     <td>{f.w}%</td>
                                     <td className="num">
-                                      {((pctv / 100) * f.w).toFixed(1)}
+                                      {fmtScore((pctv / 100) * f.w)}
                                     </td>
                                   </tr>
                                 );
@@ -720,7 +782,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                               />
                             </b>
                             <b style={{ fontSize: 16 }}>
-                              {((sub / 100) * g.w).toFixed(1)}
+                              {fmtScore((sub / 100) * g.w)}
                               <span
                                 style={{ fontSize: 11, color: "var(--muted)" }}
                               >
@@ -748,7 +810,7 @@ export default function DetailPage({ ticker }: { ticker: string }) {
                         <th>Group</th>
                         <th>Factor</th>
                         <th>Value</th>
-                        <th>Percentile</th>
+                        <th>Score</th>
                         <th>Weight</th>
                       </tr>
                     </thead>
@@ -883,7 +945,19 @@ function Financials({ payload, row }: { payload: any; row: any }) {
                 <th>Metric</th>
                 {q.map((x: any) => (
                   <th key={x.end} style={{ textAlign: "right" }}>
-                    {qLabel(x.end)}
+                    {qLabel(x.end, payload?.overview?.FiscalYearEnd)}
+                    <div
+                      style={{
+                        fontWeight: 400,
+                        textTransform: "none",
+                        letterSpacing: 0,
+                        fontSize: 10,
+                        color: "var(--muted)",
+                        marginTop: 2,
+                      }}
+                    >
+                      {x.end}
+                    </div>
                   </th>
                 ))}
               </tr>

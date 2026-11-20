@@ -8,6 +8,7 @@ import React, {
   useLayoutEffect,
   useCallback,
 } from "react";
+import { logActivity } from "@/lib/activity";
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const TICKERS_API = "/api/proxy?api=getTickers&page=0&size=13000";
@@ -1039,9 +1040,9 @@ function HomeView({ onSearch }: { onSearch: (ticker: string) => void }) {
       </div>
 
       <h1 className="ta-home-title">
-        What equity would you
+        Which company would you
         <br />
-        like to <span>analyze?</span>
+        like to <span>research?</span>
       </h1>
       <p className="ta-home-sub">
         Enter a ticker to get the Jarvis Score, scored across twelve factors with the evidence behind each one.
@@ -1170,6 +1171,7 @@ export default function StockAnalysisPage() {
       // 1) Cache: already analysed -> open instantly, no animation, no API call
       const cached = getCached(sym);
       if (cached) {
+        logActivity({ kind: "stock_analysis", ok: true, cached: true, items: [sym] });
         setTicker(sym);
         setData(cached.data);
         setFromSaved(true);
@@ -1221,12 +1223,26 @@ export default function StockAnalysisPage() {
         await sleep(reduceMotion() ? 0 : 900);
         if (runIdRef.current !== myId) return;
         setCached(sym, result);
+        logActivity({
+          kind: "stock_analysis",
+          ok: true,
+          cached: result.source === "cache",
+          ms: Date.now() - t0,
+          items: [sym],
+        });
         setData(result);
         setFromSaved(false);
         setView("ready");
         window.scrollTo({ top: 0 });
       } catch (e: any) {
         if (e === CANCELLED || runIdRef.current !== myId) return;
+        logActivity({
+          kind: "stock_analysis",
+          ok: false,
+          ms: Date.now() - t0,
+          items: [sym],
+          detail: e?.message,
+        });
         setError(e?.message || "Something went wrong while analysing this stock.");
       }
     },

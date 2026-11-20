@@ -16,8 +16,10 @@ const BASE = (process.env.NEXT_PUBLIC_BACKEND_URL || "").replace(/\/$/, "");
 const url = (path: string) => `${BASE}${path}`;
 
 export interface RunMeta {
+  priorRunAt?: string | null;
   universeN: number;
   qualifiedN: number;
+  gatePassedN?: number;
   avgComposite: number;
   spy: any;
   failures: number;
@@ -25,6 +27,74 @@ export interface RunMeta {
   noEstimates: boolean;
   fetched: number;
   ranAt: string;
+}
+
+export interface Usage {
+  total: number;
+  last7d: number;
+  successRate: number | null;
+  avgMs: number | null;
+  cacheHitRate: number | null;
+  uniqueItems: number;
+  topItems: { item: string; count: number }[];
+  lastAt: string | null;
+  byDay: number[];
+}
+export interface ActivityEvent {
+  t: string;
+  kind: "stock_analysis" | "compare" | "screener_run" | "research_compare" | "research_question";
+  ok: boolean;
+  ms?: number;
+  cached?: boolean;
+  items?: string[];
+  n?: number;
+  detail?: string;
+}
+export interface DashboardSummary {
+  generatedAt: string;
+  services: { screenerData: boolean; ai: boolean; aiModel: string; screenerRunning: boolean };
+  screener: {
+    hasRun: boolean;
+    lastRunAt: string | null;
+    ageHours: number | null;
+    durationMs: number | null;
+    universe: number;
+    scored: number;
+    failures: number;
+    gatePassed: number;
+    avgScore: number | null;
+    topScore: number | null;
+    tiers: { highAlert: number; watch: number; neutral: number; weakening: number; deteriorating: number };
+    breakdown: number;
+    confluence: number;
+    top: { t: string; name: string; score: number; tier: string; sector: string }[];
+    spy7d: number | null;
+    savedRuns: number;
+    runs: Usage;
+  };
+  stockResearch: Usage;
+  compare: Usage;
+  watchlist: {
+    breakdown: number;
+    deteriorating: number;
+    weakening: number;
+    totalFlagged: number;
+    flagged: { t: string; name: string; score: number; reason: string }[];
+  };
+  library: {
+    total: number;
+    ready: number;
+    failed: number;
+    processing: number;
+    questions: number;
+    pages: number;
+    avgMs: number | null;
+    successRate: number | null;
+    last: { title: string; at: string; status: string } | null;
+    byDay: number[];
+    questionUsage: Usage;
+  };
+  recent: ActivityEvent[];
 }
 
 async function jf<T>(path: string, opts?: RequestInit): Promise<T> {
@@ -55,6 +125,26 @@ export const api = {
   lastRun: () =>
     jf<{ rows: any[]; meta: RunMeta | null; hadPriorRun: boolean }>(
       "/api/screener/last",
+    ),
+
+  dashboard: () => jf<DashboardSummary>("/api/dashboard"),
+
+  history: () =>
+    jf<
+      {
+        ranAt: string;
+        universe: number | null;
+        highAlert: number;
+        watch: number;
+        breakdown: number | null;
+        avg: number;
+        top: number;
+      }[]
+    >("/api/screener/history"),
+
+  tickerHistory: (ticker: string) =>
+    jf<{ ranAt: string; score: number }[]>(
+      `/api/screener/history/${encodeURIComponent(ticker)}`,
     ),
 
   compare: (tickers: string[]) =>

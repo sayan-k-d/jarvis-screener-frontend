@@ -96,7 +96,6 @@ export function InfoTip({ text, label }: { text: string; label?: string }) {
           <span
             style={{
               color: "var(--ink-2)",
-              fontFamily: "var(--mono, ui-monospace, monospace)",
             }}
           >
             {text}
@@ -107,61 +106,61 @@ export function InfoTip({ text, label }: { text: string; label?: string }) {
   );
 }
 
-// Exact formulas, mirroring the engine + the Formula Reference doc.
+// Short plain-language descriptions shown in the info tooltips. These deliberately
+// explain WHAT a value tells you, not HOW it is calculated - no formulas, weights,
+// thresholds or caps. Keep new entries in the same style.
 export const FORMULAS = {
   // group scores
-  A: "Group A = Σ(factorScore × factorWeight / 0.29) for factors 1–4. Percentile-ranked price & relative-strength momentum.",
-  B: "Group B = Σ(factorScore × factorWeight / 0.28) for factors 5–7. Forward earnings estimate momentum.",
-  C: "Group C = Σ(factorScore × factorWeight / 0.23) for factors 8–10. Business quality & ROIC.",
-  D: "Group D = Σ(factorScore × factorWeight / 0.12) for factors 11–13. Valuation discipline.",
-  E: "Group E = Σ(factorScore × factorWeight / 0.08) for factors 14–15. Revenue & operating momentum.",
+  A: "Shows how strongly the stock's price has been moving compared with the overall market, across recent weeks and the year so far.",
+  B: "Reflects how professional analysts' earnings expectations for the company are changing - a forward-looking read on where profits are heading.",
+  C: "Measures how profitable and efficient the business is, including how well it turns capital into returns and how it performs against earnings expectations.",
+  D: "Indicates whether the stock looks reasonably priced against its earnings, cash flow and its own history, to avoid chasing overvalued names.",
+  E: "Confirms whether the company's reported sales and operating profitability are actually improving.",
   composite:
-    "Composite = A×0.29 + B×0.28 + C×0.23 + D×0.12 + E×0.08, then capped by any failed risk gate and rounded to 0–100.",
+    "Jarvis's overall momentum score from 0 to 100. It blends price strength, earnings expectations, business quality, valuation and growth, and is held back when a risk check is not passed.",
   weighted:
-    "Weighted = percentile ÷ 100 × factor weight (its point contribution to the composite).",
+    "How much this factor contributes to the stock's overall score, based on its score and its importance.",
   groupWeighted:
-    "Group Weighted Score = groupScore ÷ 100 × group weight (points contributed to the composite, out of the group weight).",
+    "How much this group of factors contributes to the stock's overall score.",
 
   // per-factor
-  f1: "1-Month Return vs S&P = stock 30-day return − SPY 30-day return, then percentile-ranked across the run.",
-  f2: "10-Day Return vs S&P = stock 10-day return − SPY 10-day return, then percentile-ranked.",
-  f3: "YTD Return vs S&P = stock YTD return − SPY YTD return, then percentile-ranked.",
-  f4: "RSI zone score: 60–75 → 100, 75–80 → 80, >80 → 40, 40–60 → 55, <40 → 20 (14-day RSI).",
-  f5: "EPS Next-Year Change % = (nextFY EPS − currentFY EPS) / |currentFY EPS| × 100, then percentile-ranked.",
-  f6: "EPS Revisions Up = count of upward EPS revisions (30d), percentile-ranked.",
-  f7: "EPS Revisions Down = count of downward EPS revisions (30d); inverted (100 − percentile).",
-  f8: "ROIC = grossProfit / (marketCap + longTermDebt), then percentile-ranked.",
-  f9: "Net Margin = AV ProfitMargin, percentile-ranked.",
-  f10: "EPS Surprise % = AV surprisePercentage of the latest quarter, percentile-ranked.",
-  f11: "EV/EBITDA = (marketCap + longTermDebt) / EBITDA; inverted (100 − percentile) — cheaper ranks higher.",
-  f12: "P/FCF = marketCap / free cash flow; inverted (100 − percentile).",
-  f13: "Trailing P/E = AV TrailingPE; inverted (100 − percentile).",
-  f14: "Revenue Growth YoY = AV QuarterlyRevenueGrowthYOY, percentile-ranked.",
-  f15: "Operating Margin TTM = AV OperatingMarginTTM, percentile-ranked.",
+  f1: "How much the stock has outperformed or lagged the S&P 500 over roughly the past month. Bigger outperformance scores higher.",
+  f2: "A short-term version of relative performance, capturing stocks that are gaining momentum right now compared with the S&P 500.",
+  f3: "How the stock has performed against the S&P 500 so far this year. Helps confirm that strength is sustained rather than a one-week spike.",
+  f4: "A gauge of whether recent buying pressure is healthy. Strong-but-not-stretched momentum scores best; overheated or weak readings score lower.",
+  f5: "How much analysts expect the company's earnings to grow next year versus this year. Higher expected growth scores higher.",
+  f6: "How many analysts have recently raised their earnings estimates. More upgrades is a positive sign.",
+  f7: "How many analysts have recently lowered their earnings estimates. Fewer downgrades scores better.",
+  f8: "A measure of how efficiently the company uses its capital to generate profit. Higher is better.",
+  f9: "How much of each sales dollar the company keeps as profit, with extra credit when that margin has been improving.",
+  f10: "How far the company's latest quarterly earnings came in above or below analyst expectations. Bigger beats score higher.",
+  f11: "Compares the company's total value with its operating earnings. Cheaper relative to earnings scores better.",
+  f12: "Compares the company's market value with the free cash it generates. Cheaper relative to cash flow scores better.",
+  f13: "Shows whether the stock is priced low or high relative to its own five-year history of earnings multiples. Trading near its historical low scores best.",
+  f14: "How fast the company's sales are growing versus a year ago, with extra credit if growth is speeding up.",
+  f15: "Whether the company's operating profit margin is improving or slipping, which signals operating leverage.",
 
   // compare ratio rows (absolute)
-  roic: "ROIC = grossProfit / (marketCap + longTermDebt). Absolute ratio, shown as a %.",
-  ev: "EV/EBITDA = (marketCap + longTermDebt) / EBITDA. Absolute ratio (EBITDA ≤ 0 excluded).",
-  pfcf: "P/FCF = marketCap / (operatingCashflow − |capEx|). Absolute ratio (FCF ≤ 0 excluded).",
-  pe: "Trailing P/E taken directly from Alpha Vantage OVERVIEW.TrailingPE.",
+  roic: "A simple gauge of how effectively the company turns the capital invested in it into profit.",
+  ev: "Compares the company's total value with its operating earnings. Lower can indicate a cheaper valuation.",
+  pfcf: "Compares the company's market value with the free cash flow it generates. Lower can indicate a cheaper valuation.",
+  pe: "The share price relative to the company's earnings per share over the last twelve months, as reported by the data provider.",
 
   // header / detail
   delta:
-    "Weekly Δ = composite(this run) − composite(last run). “—” within ±2, ▲/▼ otherwise, “NEW” if no prior score.",
-  price:
-    "Price = latest daily close from TIME_SERIES_DAILY (falls back to AnalystTargetPrice).",
-  dayChange:
-    "Day change = close[t] − close[t−1]; % = change / close[t−1] × 100 (day-over-day, not intraday).",
-  tier: "Tier by composite: ≥85 High Alert, 70–84 Watch, 50–69 Neutral, 30–49 Weakening, <30 Deteriorating.",
-  conf: "Triple Confluence = EPS next-year change > 0 AND price > 50-day SMA AND revenue growth YoY > 0.",
+    "How the score has changed since the previous comparison run. An arrow shows the direction; a dash means little change; NEW means the stock was not in the earlier run.",
+  price: "The most recent closing share price.",
+  dayChange: "The change in the closing price versus the previous trading day.",
+  tier: "Groups stocks by overall score, from High Alert (strongest) down to Deteriorating (weakest).",
+  conf: "A star marks stocks where earnings expectations, price trend and sales growth are all moving in the right direction at the same time.",
 
   // gates
   gateOCF:
-    "Operating Cash Flow gate: must be > $0, else composite is capped at 45.",
+    "A safety check that the company is generating positive cash from its day-to-day operations. Failing it limits the stock's score.",
   gateRev:
-    "EPS Revision Net Balance gate: (up − down) 30-day revisions ≥ 0, else composite is capped at 50.",
+    "A safety check that analysts are not, on balance, cutting their earnings estimates. Failing it limits the stock's score.",
   gateDebt:
-    "Debt Growth vs Revenue gate: debt growth < revenue growth, else cap 55 (needs a prior snapshot).",
+    "A safety check that the company's debt is not growing faster than its sales. Failing it flags the stock and limits its score.",
   gateDilution:
-    "Share Dilution gate: share growth < 5% YoY, else cap 55 (needs a prior snapshot).",
+    "A safety check that existing shareholders are not being heavily diluted by new share issuance. Failing it flags the stock and limits its score.",
 } as const;

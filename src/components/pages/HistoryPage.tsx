@@ -1,34 +1,29 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { useScreener } from '@/context/ScreenerContext';
+import { api } from '@/lib/api';
+import { fmtScore } from '@/lib/format';
 
-// Run history. We keep a representative recent list; the latest live run (if any)
-// is shown at the top so the page reflects real activity.
+type HistRow = Awaited<ReturnType<typeof api.history>>[number];
+
+// Run history — every completed screener run the backend has saved (newest first).
 export default function HistoryPage() {
-  const { meta, rows, liveOn } = useScreener();
+  const { meta } = useScreener();
+  const [history, setHistory] = useState<HistRow[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const sample = [
-    ['Aug 07, 2026', '5,921', 20, 30, 17, 68.4, 96],
-    ['Jul 31, 2026', '5,918', 18, 28, 16, 65.2, 94],
-    ['Jul 24, 2026', '5,905', 19, 31, 18, 64.1, 93],
-    ['Jul 17, 2026', '5,890', 17, 27, 15, 62.3, 92],
-    ['Jul 10, 2026', '5,880', 16, 25, 14, 61.0, 90],
-    ['Jul 03, 2026', '5,875', 15, 24, 13, 60.2, 89],
-  ];
-
-  const liveRow =
-    liveOn && meta
-      ? [
-          new Date(meta.ranAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
-          meta.fetched.toLocaleString(),
-          rows.filter((r) => r.tier === 'High Alert').length,
-          rows.filter((r) => r.tier === 'Watch').length,
-          rows.filter((r) => r.breakdown).length,
-          meta.avgComposite.toFixed(1),
-          rows.length ? Math.max(...rows.map((r) => r.sc)) : 0,
-        ]
-      : null;
-
-  const all = liveRow ? [liveRow, ...sample] : sample;
+  useEffect(() => {
+    let alive = true;
+    setLoading(true);
+    api
+      .history()
+      .then((h) => alive && setHistory(h))
+      .catch(() => alive && setHistory([]))
+      .finally(() => alive && setLoading(false));
+    return () => {
+      alive = false;
+    };
+  }, [meta?.ranAt]);
 
   return (
     <div className="card">
@@ -43,24 +38,37 @@ export default function HistoryPage() {
               <th>Breakdown</th>
               <th>Avg Score</th>
               <th>Top Score</th>
-              <th>Report</th>
             </tr>
           </thead>
           <tbody>
-            {all.map((r, i) => (
-              <tr key={i}>
-                <td>{r[0]}{i === 0 && liveRow ? <span style={{ marginLeft: 8, fontSize: 10, color: 'var(--green)' }}>● live</span> : null}</td>
-                <td className="num">{r[1]}</td>
-                <td className="num" style={{ color: 'var(--red)' }}>{r[2]}</td>
-                <td className="num" style={{ color: 'var(--amber)' }}>{r[3]}</td>
-                <td className="num">{r[4]}</td>
-                <td className="num">{r[5]}</td>
-                <td className="num" style={{ color: 'var(--green)' }}>{r[6]}</td>
-                <td>
-                  <span className="link">View →</span>
+            {history.length ? (
+              history.map((r, i) => (
+                <tr key={r.ranAt}>
+                  <td>
+                    {new Date(r.ranAt).toLocaleString('en-US', {
+                      month: 'short',
+                      day: '2-digit',
+                      year: 'numeric',
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    })}
+                    {i === 0 ? <span style={{ marginLeft: 8, fontSize: 10, color: 'var(--green)' }}>● latest</span> : null}
+                  </td>
+                  <td className="num">{r.universe ?? '—'}</td>
+                  <td className="num" style={{ color: 'var(--red)' }}>{r.highAlert}</td>
+                  <td className="num" style={{ color: 'var(--amber)' }}>{r.watch}</td>
+                  <td className="num">{r.breakdown ?? '—'}</td>
+                  <td className="num">{fmtScore(r.avg)}</td>
+                  <td className="num" style={{ color: 'var(--green)' }}>{fmtScore(r.top)}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={7} style={{ padding: 34, textAlign: 'center', color: 'var(--muted)' }}>
+                  {loading ? 'Loading run history…' : 'No completed runs yet. Run the screener to start a history.'}
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

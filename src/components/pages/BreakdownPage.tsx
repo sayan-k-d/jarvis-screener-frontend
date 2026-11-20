@@ -2,14 +2,15 @@
 import { useMemo } from 'react';
 import { useScreener } from '@/context/ScreenerContext';
 import { DeltaCell } from '@/components/ui';
+import { fmtScore } from '@/lib/format';
 
 export default function BreakdownPage({ onOpenStock }: { onOpenStock: (t: string) => void }) {
   const { rows, liveOn } = useScreener();
 
-  // Stocks flagged as breakdown (netRev<0 & price<sma50), or the weakest tail.
+  // Spec: BREAKDOWN WATCH = net negative EPS revisions AND price below 50D SMA
+  // (regardless of score); DETERIORATING (score < 30) is the separate alert list.
   const list = useMemo(() => {
-    const flagged = rows.filter((r) => r.breakdown);
-    const base = flagged.length ? flagged : rows.filter((r) => r.sc < 50);
+    const base = rows.filter((r) => r.breakdown || r.tier === 'Deteriorating');
     return base.slice().sort((a, b) => a.sc - b.sc).slice(0, 25);
   }, [rows]);
 
@@ -19,6 +20,7 @@ export default function BreakdownPage({ onOpenStock }: { onOpenStock: (t: string
     if (isFinite(r.price) && isFinite(r.sma50) && r.price < r.sma50) out.push('Below 50-day SMA');
     if (isFinite(r.rel30) && r.rel30 < 0) out.push('Lagging S&P (30d)');
     if (isFinite(r.rsi) && r.rsi < 40) out.push('Weak RSI');
+    if (r.tier === 'Deteriorating') out.unshift('Score < 30');
     return out.slice(0, 2).join(' · ') || 'Deteriorating momentum';
   };
 
@@ -26,7 +28,7 @@ export default function BreakdownPage({ onOpenStock }: { onOpenStock: (t: string
     <div className="card">
       <div className="card-head">
         <div>
-          <h3>Breakdown Watch</h3>
+          <h3>Watchlists & Alerts</h3>
           <div className="sub">Stocks with deteriorating momentum</div>
         </div>
       </div>
@@ -49,7 +51,7 @@ export default function BreakdownPage({ onOpenStock }: { onOpenStock: (t: string
                     {s.t}
                   </td>
                   <td>{s.n}</td>
-                  <td className="num">{s.sc}</td>
+                  <td className="num">{fmtScore(s.sc)}</td>
                   <td>
                     <DeltaCell d={s.d} isNew={s.isNew} />
                   </td>

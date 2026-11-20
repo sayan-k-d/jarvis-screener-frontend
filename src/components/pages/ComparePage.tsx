@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { InfoTip, FORMULAS } from "@/components/InfoTip";
+import { logActivity } from "@/lib/activity";
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const SCORE_WEBHOOK_URL =
@@ -442,6 +443,7 @@ export default function ComparePage({
     tickers.forEach((t) => {
       const hit = getCached(t);
       if (hit) {
+        logActivity({ kind: "compare", ok: true, cached: true, items: [t] });
         setStocks((p) => ({ ...p, [t]: hit }));
         setStatus((p) => ({ ...p, [t]: "cached" }));
         return;
@@ -452,12 +454,15 @@ export default function ComparePage({
         const { [t]: _, ...rest } = p;
         return rest;
       });
+      const t0 = Date.now();
       loadStock(t)
         .then((s) => {
+          logActivity({ kind: "compare", ok: true, ms: Date.now() - t0, items: [t] });
           setStocks((p) => ({ ...p, [t]: s }));
           setStatus((p) => ({ ...p, [t]: "done" }));
         })
         .catch((e: Error) => {
+          logActivity({ kind: "compare", ok: false, ms: Date.now() - t0, items: [t], detail: e.message });
           setStatus((p) => ({ ...p, [t]: "error" }));
           setErrors((p) => ({ ...p, [t]: e.message }));
         });

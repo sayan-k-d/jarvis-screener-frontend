@@ -194,7 +194,7 @@ export function ScoreHistoryChart({ data }: { data: number[] }) {
             {hover === n - 1 ? "Now" : `${n - 1 - hover}w ago`}
           </span>{" "}
           <b style={{ color: "var(--green)", marginLeft: 6 }}>
-            {Math.round(data[hover])}
+            {(Math.trunc(data[hover] * 100 + 1e-9) / 100).toFixed(2)}
           </b>
           <span style={{ color: "var(--muted)", fontSize: 10 }}>/100</span>
         </div>
@@ -204,15 +204,14 @@ export function ScoreHistoryChart({ data }: { data: number[] }) {
 }
 
 // Score-distribution donut (dashboard).
-export function Donut() {
-  const segs: [string, number, string][] = [
-    ["80–100", 155, "#1668e3"],
-    ["60–79", 1240, "#3b8ef0"],
-    ["40–59", 2280, "#f2b705"],
-    ["20–39", 1685, "#f08c3b"],
-    ["0–19", 561, "#e03131"],
-  ];
+export function Donut({ segs }: { segs: [string, number, string][] }) {
   const total = segs.reduce((a, s) => a + s[1], 0);
+  if (!total)
+    return (
+      <div style={{ color: "var(--muted)", fontSize: 12, padding: "18px 0" }}>
+        Run the screener to see the score distribution.
+      </div>
+    );
   const R = 44,
     C = 2 * Math.PI * R;
   let off = 0;
@@ -278,21 +277,30 @@ export function Donut() {
 }
 
 // Trend-of-tiers line chart (dashboard).
-export function TrendChart() {
+export function TrendChart({
+  labels,
+  series,
+}: {
+  labels: string[];
+  series: { n: string; c: string; d: number[] }[];
+}) {
   const W = 520,
     H = 200,
     P = { l: 32, r: 12, t: 12, b: 26 };
-  const series = [
-    { n: "High Alert", c: "#1668e3", d: [16, 17, 19, 18, 20] },
-    { n: "Watch", c: "#3ddc84", d: [25, 27, 31, 28, 30] },
-    { n: "Breakdown", c: "#e03131", d: [14, 15, 18, 16, 17] },
-  ];
-  const labels = ["Apr 15", "Apr 22", "Apr 29", "May 6", "May 13"];
-  const max = 36;
-  const x = (i: number) => P.l + (i * (W - P.l - P.r)) / 4;
+  const n = labels.length;
+  if (n < 2)
+    return (
+      <div style={{ color: "var(--muted)", fontSize: 12, padding: "24px 0" }}>
+        A trend appears once at least two screener runs have been saved.
+      </div>
+    );
+  const peak = Math.max(1, ...series.flatMap((s) => s.d));
+  const step = Math.max(1, Math.ceil(peak / 3));
+  const max = step * 3;
+  const x = (i: number) => P.l + (i * (W - P.l - P.r)) / (n - 1);
   const y = (v: number) => H - P.b - (v / max) * (H - P.t - P.b);
   const grid: React.ReactNode[] = [];
-  for (let v = 0; v <= 30; v += 10) {
+  for (let v = 0; v <= max; v += step) {
     grid.push(
       <g key={v}>
         <line
@@ -365,7 +373,7 @@ export function TrendChart() {
         ))}
         {labels.map((l, i) => (
           <text
-            key={l}
+            key={i}
             x={x(i)}
             y={H - 8}
             fontSize={9}

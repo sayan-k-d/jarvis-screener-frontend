@@ -1,6 +1,14 @@
 // Display formatting + row adapter, ported from the original app. The backend
 // returns raw numeric scored rows; the frontend formats them for display.
 
+/** Truncate (never round) to 2 decimals: 53.617 -> 53.61. */
+export const trunc2 = (v: number): number =>
+  Number.isFinite(v) ? Math.trunc(v * 100 + 1e-9) / 100 : v;
+/** Exact score for display: always 2 decimals, truncated not rounded (53.617 -> "53.61"). */
+export const fmtScore = (v: any): string => {
+  const x = typeof v === "number" ? v : parseFloat(v);
+  return Number.isFinite(x) ? trunc2(x).toFixed(2) : "—";
+};
 export const clampN = (v: number, a: number, b: number) =>
   Math.max(a, Math.min(b, v));
 
@@ -104,6 +112,9 @@ export interface AdaptedRow {
 // is defaulted — nothing here can throw on null/undefined.
 export function adaptRow(r: any): AdaptedRow {
   r = r || {};
+  // JSON turns NaN into null, and isFinite(null) is true (null -> 0), which would
+  // render missing metrics as "+0.0%". Restore them to NaN so they show as "—".
+  for (const k of Object.keys(r)) if (r[k] === null) r[k] = NaN;
   const composite = n(r.composite);
   r.sc = Number.isFinite(composite) ? composite : 0;
   r.n = r.name || r.t || "—";
@@ -222,10 +233,29 @@ export function parseNews(j: any, sym: string): { items: any[]; avg: number } {
   return { items, avg };
 }
 
-export function qLabel(end: string): string {
+const MONTHS = [
+  "january", "february", "march", "april", "may", "june",
+  "july", "august", "september", "october", "november", "december",
+];
+
+/**
+ * Fiscal quarter label for a quarter-end date (YYYY-MM-DD), e.g. "Q1 FY26".
+ * `fyEnd` is the company's fiscal-year-end month ("September" or 9; default
+ * December). The fiscal year is named for the calendar year it ENDS in, so for a
+ * September year-end, the quarter ending 2025-12-31 is Q1 FY26.
+ */
+export function qLabel(end: string, fyEnd?: string | number): string {
   if (!end || end.length < 7) return "—";
   const y = +end.slice(0, 4),
     m = +end.slice(5, 7);
-  const q = Math.min(4, Math.ceil(m / 3));
-  return `Q${q} FY${String(y).slice(2)}`;
+  let f = 12;
+  if (typeof fyEnd === "number" && fyEnd >= 1 && fyEnd <= 12) f = fyEnd;
+  else if (typeof fyEnd === "string") {
+    const i = MONTHS.indexOf(fyEnd.trim().toLowerCase());
+    if (i >= 0) f = i + 1;
+  }
+  const offset = (m - f + 12) % 12; // months since the fiscal year-end
+  const q = offset === 0 ? 4 : Math.ceil(offset / 3);
+  const fy = m > f ? y + 1 : y;
+  return `Q${q} FY${String(fy).slice(2)}`;
 }
