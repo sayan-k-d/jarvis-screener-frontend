@@ -320,7 +320,11 @@ function RecordView({
 
 // ---------------------------------------------------------------- home view
 function Home({ onOpen }: { onOpen: (id: string) => void }) {
-  const [status, setStatus] = useState<{ hasKey: boolean; model: string } | null>(null);
+  const [status, setStatus] = useState<{
+    hasKey: boolean;
+    model: string;
+    keyStatus?: "ok" | "rejected" | "unknown" | "missing";
+  } | null>(null);
   const [items, setItems] = useState<ResearchSummary[] | null>(null);
   const [listError, setListError] = useState("");
   const [fileA, setFileA] = useState<File | null>(null);
@@ -415,8 +419,19 @@ function Home({ onOpen }: { onOpen: (id: string) => void }) {
             <div className="rl-banner warn" role="alert">
               <Icon name="alert" size={18} />
               <span>
-                The AI service is not set up yet. Add <b>OPENAI_API_KEY</b> to the backend <b>.env</b> file and restart
-                the server to enable comparisons.
+                The AI service is not set up yet. Add <b>OPENAI_API_KEY</b> to the backend environment (the{" "}
+                <b>.env</b> file locally, or Project Settings → Environment Variables on Vercel) and restart or
+                redeploy the server to enable comparisons.
+              </span>
+            </div>
+          )}
+          {status?.hasKey && status.keyStatus === "rejected" && (
+            <div className="rl-banner err" role="alert">
+              <Icon name="alert" size={18} />
+              <span>
+                OpenAI rejected the API key this server is using, so comparisons can&apos;t run. Re-enter{" "}
+                <b>OPENAI_API_KEY</b> in the backend environment — no quotes or spaces, set for the Production
+                environment — and redeploy.
               </span>
             </div>
           )}
@@ -456,7 +471,13 @@ function Home({ onOpen }: { onOpen: (id: string) => void }) {
             <button
               className="rl-btn primary"
               onClick={submit}
-              disabled={!fileA || !fileB || uploading || status?.hasKey === false}
+              disabled={
+                !fileA ||
+                !fileB ||
+                uploading ||
+                status?.hasKey === false ||
+                status?.keyStatus === "rejected"
+              }
             >
               {uploading ? (
                 uploadPct !== null && uploadPct > 0 && uploadPct < 100 ? `Uploading… ${uploadPct}%` : "Uploading…"

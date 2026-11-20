@@ -151,7 +151,10 @@ async function uploadInChunks(file: File, onBytes: (n: number) => void): Promise
 }
 
 export const researchApi = {
-  status: () => jf<{ hasKey: boolean; model: string }>("/api/research/status"),
+  status: () =>
+    jf<{ hasKey: boolean; model: string; keyStatus?: "ok" | "rejected" | "unknown" | "missing" }>(
+      "/api/research/status",
+    ),
   list: () => jf<ResearchSummary[]>("/api/research"),
   get: (id: string) => jf<ResearchRecord>(`/api/research/${id}`),
   /**
